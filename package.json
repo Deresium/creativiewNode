@@ -1,0 +1,23 @@
+{
+  "name": "creativiewnode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deresium/creativiewNode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deresium/creativiewNode/issues"
+  },
+  "homepage": "https://github.com/Deresium/creativiewNode#readme",
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "express": "^4.17.1"
+  }
+}
