@@ -1,6 +1,7 @@
 import express from "express";
 import Gallery from "./models/Gallery";
 import path from "path";
+const sslRedirect = require('heroku-ssl-redirect');
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -13,14 +14,16 @@ app.use(express.static(publicDirectoryPath));
     next();
 });*/
 
-if(process.env.NODE_ENV === 'production') {
+app.use(sslRedirect());
+
+/*if(process.env.NODE_ENV === 'production') {
     app.use((req, res, next) => {
         if (req.header('x-forwarded-proto') !== 'https')
             res.redirect(`https://${req.header('host')}${req.url}`);
         else
             next();
     })
-}
+}*/
 
 app.get('', (req, res)=>{
 
