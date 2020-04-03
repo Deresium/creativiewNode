@@ -6,8 +6,8 @@ const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
 
 if(process.env.NODE_ENV === 'production') {
-    app.all('*',(req, res, next) => {
-        if (req.header('x-forwarded-proto') !== 'https')
+    app.use((req, res, next) => {
+        if (!req.secure)
             res.redirect(`https://${req.header('host')}${req.url}`);
         else
             next();
