@@ -6,12 +6,12 @@ const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
 
 if(process.env.NODE_ENV === 'production') {
-    app.all('*',(req, res, next) => {
+    app.use((req, res, next) => {
         if (!req.secure)
             res.redirect(`https://${req.hostname}${req.url}`);
         else
             next();
-    })
+    });
 }
 app.use(express.static(publicDirectoryPath));
 
