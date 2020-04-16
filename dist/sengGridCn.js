@@ -14,16 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mail_1 = __importDefault(require("@sendgrid/mail"));
 mail_1.default.setApiKey(process.env.SENDGRID_CREATIVIEW);
+const to = 'dimitri.steinbusch@hotmail.com';
+const from = 'info@c-n.be';
 const sendNewInvitationMail = (invitation) => __awaiter(void 0, void 0, void 0, function* () {
     yield mail_1.default.send({
-        to: 'dimitri.steinbusch@hotmail.com',
-        from: 'info@c-n.be',
+        to,
+        from,
         subject: `C&N Event: ${invitation.guestList.length + 1} nouveaux invités`,
-        text: getNewInvitationText(invitation, '\r'),
+        text: getNewInvitationText(invitation, '\n'),
         html: getNewInvitationText(invitation, '<br/>')
     });
 });
 exports.sendNewInvitationMail = sendNewInvitationMail;
+const sendContactMail = (contact) => __awaiter(void 0, void 0, void 0, function* () {
+    yield mail_1.default.send({
+        to,
+        from,
+        subject: `Nouveau message de ${contact.name} ${contact.firstName}`,
+        text: getContactText(contact, '\n'),
+        html: getContactText(contact, '<br/>')
+    });
+});
+exports.sendContactMail = sendContactMail;
 function guestListString(guestList, separator) {
     let returnString = '';
     for (const guest of guestList) {
@@ -39,4 +51,8 @@ function getNewInvitationText(invitation, separator) {
     ${separator}
     Invités supplémentaires:${separator}
     ${guestListString(invitation.guestList, separator)}`;
+}
+function getContactText(contact, separator) {
+    return `Vous avez reçu un nouveau message de ${contact.name} ${contact.firstName} ( ${(contact.company) ? contact.company : 'société non spécifiée'} ) - ${contact.email}: ${separator}
+    ${contact.request.replace('\n', separator)}`;
 }

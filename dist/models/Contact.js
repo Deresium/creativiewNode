@@ -8,20 +8,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const invitationSchema = new mongoose_1.Schema({
+const contactSchema = new mongoose_1.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    firstName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true
+    },
     company: {
         type: String,
         required: false,
         trim: true
     },
-    mainGuest: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: 'Guest'
+    request: {
+        type: String,
+        required: true,
+        trim: true
     }
 });
-invitationSchema.virtual('guestList', {
-    ref: 'Guest',
-    localField: '_id',
-    foreignField: 'invitation'
-});
-exports.default = mongoose_1.default.model('Invitation', invitationSchema);
+exports.default = mongoose_1.default.model('Contact', contactSchema);

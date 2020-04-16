@@ -4,7 +4,7 @@ import InvitationDocument from "../interfaces/InvitationDocument";
 const invitationSchema = new Schema({
     company: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     mainGuest: {
