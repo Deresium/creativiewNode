@@ -3,18 +3,48 @@ import path from "path";
 import routerCn from "./routers/cnRouter";
 import redirectHttps from "./middlewares/redirectHttps";
 import allowCn from "./middlewares/allowCn";
+import bcryptjs from "bcryptjs";
+import cookie from "cookie"
+import jwt from "jsonwebtoken"
+import allowCredentials from "./middlewares/allowCredentials";
+import {auth} from "./middlewares/authentication";
+import {getPayloadCookie, getSignatureCookie} from "./cookies";
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
 
 if(process.env.NODE_ENV === 'production') {
     app.use(redirectHttps);
+}else{
+    app.use(allowCredentials);
 }
+
 app.use(allowCn);
 
 app.use(express.json());
 
 app.use(routerCn);
+
+app.post('/login', async (req, res) => {
+    const login = req.body.login;
+    const password = req.body.password;
+    const pwOk = await bcryptjs.compare(password,process.env.ADMIN_PW);
+    if(login === process.env.ADMIN_LOGIN && pwOk){
+        const token = jwt.sign({admin: true}, process.env.JWT_SECRET).split('.');
+        const signatureCookieValue = token[2];
+        const payloadCookieValue = `${token[0]}.${token[1]}`;
+        res.setHeader('Set-Cookie', [getSignatureCookie(signatureCookieValue), getPayloadCookie(payloadCookieValue)]);
+        res.status(200);
+    }else{
+        res.status(401);
+    }
+    res.send();
+})
+
+app.post('/gallery', auth, async(req, res) => {
+    console.log('add gallery');
+    res.send();
+})
 
 app.use(express.static(publicDirectoryPath));
 
