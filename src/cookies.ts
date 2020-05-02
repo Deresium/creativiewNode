@@ -10,7 +10,7 @@ const getSignatureCookie = (value: string) => {
 const getPayloadCookie = (value: string) => {
     return cookie.serialize('payload', value, {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 60
+        maxAge: 60*60*4
     });
 }
 

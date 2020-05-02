@@ -4,11 +4,10 @@ import routerCn from "./routers/cnRouter";
 import redirectHttps from "./middlewares/redirectHttps";
 import allowCn from "./middlewares/allowCn";
 import bcryptjs from "bcryptjs";
-import cookie from "cookie"
 import jwt from "jsonwebtoken"
 import allowCredentials from "./middlewares/allowCredentials";
-import {auth} from "./middlewares/authentication";
 import {getPayloadCookie, getSignatureCookie} from "./cookies";
+import routerGallery from "./routers/galleryRouter";
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -24,6 +23,7 @@ app.use(allowCn);
 app.use(express.json());
 
 app.use(routerCn);
+app.use(routerGallery);
 
 app.post('/login', async (req, res) => {
     const login = req.body.login;
@@ -38,11 +38,6 @@ app.post('/login', async (req, res) => {
     }else{
         res.status(401);
     }
-    res.send();
-})
-
-app.post('/gallery', auth, async(req, res) => {
-    console.log('add gallery');
     res.send();
 })
 

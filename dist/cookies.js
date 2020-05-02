@@ -14,7 +14,7 @@ exports.getSignatureCookie = getSignatureCookie;
 const getPayloadCookie = (value) => {
     return cookie_1.default.serialize('payload', value, {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 60
+        maxAge: 60 * 60 * 4
     });
 };
 exports.getPayloadCookie = getPayloadCookie;

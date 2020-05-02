@@ -20,8 +20,8 @@ const allowCn_1 = __importDefault(require("./middlewares/allowCn"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const allowCredentials_1 = __importDefault(require("./middlewares/allowCredentials"));
-const authentication_1 = require("./middlewares/authentication");
 const cookies_1 = require("./cookies");
+const galleryRouter_1 = __importDefault(require("./routers/galleryRouter"));
 const app = express_1.default();
 const publicDirectoryPath = path_1.default.join(__dirname, '../public');
 if (process.env.NODE_ENV === 'production') {
@@ -33,6 +33,7 @@ else {
 app.use(allowCn_1.default);
 app.use(express_1.default.json());
 app.use(cnRouter_1.default);
+app.use(galleryRouter_1.default);
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const login = req.body.login;
     const password = req.body.password;
@@ -47,10 +48,6 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     else {
         res.status(401);
     }
-    res.send();
-}));
-app.post('/gallery', authentication_1.auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('add gallery');
     res.send();
 }));
 app.use(express_1.default.static(publicDirectoryPath));
