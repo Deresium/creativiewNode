@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
-export default async () => {
-    try{
-        return await mongoose.connect(process.env.URL_MANGO_CN,
-            {useNewUrlParser: true, useUnifiedTopology: true, replicaSet: 'rs'});
-    }catch(error){
-        throw error;
+export default () => {
+    mongoose.connect(process.env.URL_MANGO_CN,{useNewUrlParser: true, useUnifiedTopology: true, replicaSet: 'rs'})
+        .catch(() => {
+            console.log('impossible to connect to db');
+        });
     }
- }

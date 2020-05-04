@@ -2,14 +2,13 @@ import Invitation from "../models/Invitation";
 import express from "express";
 import Guest from "../models/Guest";
 import GuestDocument from "../interfaces/GuestDocument";
-import mongodb from "../mongodb";
 import {sendContactMail, sendNewInvitationMail} from "../sengGridCn";
 import Contact from "../models/Contact";
+import * as mongoose from "mongoose";
 
 const routerCn = express.Router();
 
 routerCn.post('/cn/event', async(req, res)=>{
-    console.log(req.body);
     const invitation = new Invitation({
         'company': req.body.invitation.company,
         'mainGuest': new Guest(req.body.invitation.mainGuest),
@@ -25,7 +24,7 @@ routerCn.post('/cn/event', async(req, res)=>{
         );
     });
 
-    const db = await mongodb();
+    const db = mongoose.connection;
     await Invitation.createCollection();
     await Guest.createCollection();
     const session = await db.startSession();
@@ -45,12 +44,10 @@ routerCn.post('/cn/event', async(req, res)=>{
         res.status(500).send();
     }finally {
         session.endSession();
-        db.disconnect();
     }
 });
 
 routerCn.post('/cn/contact', async(req, res)=> {
-    const db = await mongodb();
     try{
         const contact = await Contact.create(req.body.contact);
         await sendContactMail(contact);
@@ -58,8 +55,6 @@ routerCn.post('/cn/contact', async(req, res)=> {
     }catch(error){
         console.log(error)
         res.status(500).send();
-    }finally {
-        db.disconnect();
     }
 });
 

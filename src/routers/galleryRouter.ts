@@ -2,9 +2,9 @@ import multer from "multer";
 import {auth} from "../middlewares/authentication";
 import express from "express";
 import Gallery from "../models/creatiview/Gallery";
-import mongodbCreatiview from "../mongodbCreatiview";
 import Photo from "../models/creatiview/Photo";
-import {mongo} from "mongoose";
+import * as mongoose from "mongoose";
+import {db} from "../mongodbCreatiview";
 
 const routerGallery = express.Router();
 
@@ -28,7 +28,6 @@ routerGallery.post('/gallery', auth, upload.array('photo'),async(req, res) => {
         );
     });
 
-    const db = await mongodbCreatiview();
     await Gallery.createCollection();
     await Photo.createCollection();
     const session = await db.startSession();
@@ -46,12 +45,10 @@ routerGallery.post('/gallery', auth, upload.array('photo'),async(req, res) => {
         res.status(500).send();
     }finally{
         session.endSession();
-        db.disconnect();
     }
 });
 
 routerGallery.get('/gallery', async(req, res) => {
-    const db = await mongodbCreatiview();
     try {
         const galleries = await Gallery.find();
         /*for(let gallery of galleries){
@@ -67,13 +64,10 @@ routerGallery.get('/gallery', async(req, res) => {
     }catch(error){
         console.log(error);
         res.status(500).send();
-    }finally {
-        db.disconnect();
     }
 });
 
 routerGallery.get('/gallery/:id/mainPicture', async(req, res) => {
-    const db = await mongodbCreatiview();
     try{
         const galleryId = req.params.id;
         const gallery = await Gallery.findOne({_id: galleryId});
@@ -92,9 +86,41 @@ routerGallery.get('/gallery/:id/mainPicture', async(req, res) => {
     }catch(error){
         console.log(error);
         res.status(500).send();
-    }finally {
-        db.disconnect();
     }
+});
+
+routerGallery.get('/gallery/:galleryName', async(req, res) => {
+    try{
+       const name = req.params.galleryName.replace('.', ' ');
+       const gallery = await Gallery.findOne({galleryName: name});
+       if(gallery){
+           await gallery.populate({
+               path: 'photoList',
+               select: '_id'
+           }).execPopulate();
+           res.send(gallery.photoList);
+       }else {
+           res.status(404).send();
+       }
+    }catch(error){
+       res.status(500).send();
+    }
+});
+
+routerGallery.get('/pictures/:id', async(req, res) => {
+   try{
+       const idPicture = req.params.id;
+       const picture = await Photo.findById(idPicture);
+       if(picture){
+           res.set('Content-Type', 'image/jpg');
+           res.send(picture.picture);
+       }else{
+           res.status(404).send();
+       }
+   }catch(error){
+       console.error(error);
+       res.status(500).send();
+   }
 });
 
 export default routerGallery;

@@ -22,6 +22,8 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const allowCredentials_1 = __importDefault(require("./middlewares/allowCredentials"));
 const cookies_1 = require("./cookies");
 const galleryRouter_1 = __importDefault(require("./routers/galleryRouter"));
+const mongodbCreatiview_1 = require("./mongodbCreatiview");
+mongodbCreatiview_1.connect();
 const app = express_1.default();
 const publicDirectoryPath = path_1.default.join(__dirname, '../public');
 if (process.env.NODE_ENV === 'production') {

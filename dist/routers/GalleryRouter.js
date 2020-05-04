@@ -16,8 +16,8 @@ const multer_1 = __importDefault(require("multer"));
 const authentication_1 = require("../middlewares/authentication");
 const express_1 = __importDefault(require("express"));
 const Gallery_1 = __importDefault(require("../models/creatiview/Gallery"));
-const mongodbCreatiview_1 = __importDefault(require("../mongodbCreatiview"));
 const Photo_1 = __importDefault(require("../models/creatiview/Photo"));
+const mongodbCreatiview_1 = require("../mongodbCreatiview");
 const routerGallery = express_1.default.Router();
 const upload = multer_1.default();
 routerGallery.post('/gallery', authentication_1.auth, upload.array('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,10 +33,9 @@ routerGallery.post('/gallery', authentication_1.auth, upload.array('photo'), (re
             gallery
         }));
     });
-    const db = yield mongodbCreatiview_1.default();
     yield Gallery_1.default.createCollection();
     yield Photo_1.default.createCollection();
-    const session = yield db.startSession();
+    const session = yield mongodbCreatiview_1.db.startSession();
     session.startTransaction();
     try {
         yield Gallery_1.default.create([gallery], { session });
@@ -53,11 +52,9 @@ routerGallery.post('/gallery', authentication_1.auth, upload.array('photo'), (re
     }
     finally {
         session.endSession();
-        db.disconnect();
     }
 }));
 routerGallery.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const db = yield mongodbCreatiview_1.default();
     try {
         const galleries = yield Gallery_1.default.find();
         /*for(let gallery of galleries){
@@ -75,12 +72,8 @@ routerGallery.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, fu
         console.log(error);
         res.status(500).send();
     }
-    finally {
-        db.disconnect();
-    }
 }));
 routerGallery.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const db = yield mongodbCreatiview_1.default();
     try {
         const galleryId = req.params.id;
         const gallery = yield Gallery_1.default.findOne({ _id: galleryId });
@@ -102,8 +95,41 @@ routerGallery.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, vo
         console.log(error);
         res.status(500).send();
     }
-    finally {
-        db.disconnect();
+}));
+routerGallery.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const name = req.params.galleryName.replace('.', ' ');
+        const gallery = yield Gallery_1.default.findOne({ galleryName: name });
+        if (gallery) {
+            yield gallery.populate({
+                path: 'photoList',
+                select: '_id'
+            }).execPopulate();
+            res.send(gallery.photoList);
+        }
+        else {
+            res.status(404).send();
+        }
+    }
+    catch (error) {
+        res.status(500).send();
+    }
+}));
+routerGallery.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const idPicture = req.params.id;
+        const picture = yield Photo_1.default.findById(idPicture);
+        if (picture) {
+            res.set('Content-Type', 'image/jpg');
+            res.send(picture.picture);
+        }
+        else {
+            res.status(404).send();
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send();
     }
 }));
 exports.default = routerGallery;

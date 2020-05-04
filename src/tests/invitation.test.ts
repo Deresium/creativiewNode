@@ -1,3 +1,4 @@
+/*
 import request from "supertest";
 import app from "../app";
 import mangodb from "../mongodb";
@@ -8,11 +9,11 @@ beforeEach(async()=>{
     await db.disconnect();
 })
 
-/*
+/!*
 afterEach(()=>{
 
 })
-*/
+*!/
 
 test('createInvitation', async()=>{
     await request(app).post('/cn/event').send({
@@ -25,4 +26,4 @@ test('createInvitation', async()=>{
             guestList: []
         }
     }).expect(200);
-})
+})*/

@@ -8,6 +8,10 @@ import jwt from "jsonwebtoken"
 import allowCredentials from "./middlewares/allowCredentials";
 import {getPayloadCookie, getSignatureCookie} from "./cookies";
 import routerGallery from "./routers/galleryRouter";
+import {connect} from "./mongodbCreatiview";
+import mongodb from "./mongodb";
+
+connect();
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
