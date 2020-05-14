@@ -23,6 +23,7 @@ const allowCredentials_1 = __importDefault(require("./middlewares/allowCredentia
 const cookies_1 = require("./cookies");
 const galleryRouter_1 = __importDefault(require("./routers/galleryRouter"));
 const mongodbCreatiview_1 = require("./mongodbCreatiview");
+const contactRouter_1 = __importDefault(require("./routers/contactRouter"));
 mongodbCreatiview_1.connect();
 const app = express_1.default();
 const publicDirectoryPath = path_1.default.join(__dirname, '../public');
@@ -36,6 +37,7 @@ app.use(allowCn_1.default);
 app.use(express_1.default.json());
 app.use(cnRouter_1.default);
 app.use(galleryRouter_1.default);
+app.use(contactRouter_1.default);
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const login = req.body.login;
     const password = req.body.password;

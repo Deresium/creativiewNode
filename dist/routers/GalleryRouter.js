@@ -132,4 +132,28 @@ routerGallery.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).send();
     }
 }));
+routerGallery.post('/gallery/addPicture/:galleryName', authentication_1.auth, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const galleryName = req.params.galleryName.replace('.', ' ');
+        const gallery = yield Gallery_1.default.findOne({ galleryName });
+        if (gallery) {
+            const file = req.file;
+            const photo = new Photo_1.default({
+                name: file.originalname.split('.')[0],
+                type: file.mimetype,
+                picture: file.buffer,
+                gallery
+            });
+            yield Photo_1.default.create([photo]);
+            res.status(200).send();
+        }
+        else {
+            res.status(404).send();
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send();
+    }
+}));
 exports.default = routerGallery;

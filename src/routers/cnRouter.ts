@@ -2,7 +2,7 @@ import Invitation from "../models/Invitation";
 import express from "express";
 import Guest from "../models/Guest";
 import GuestDocument from "../interfaces/GuestDocument";
-import {sendContactMail, sendNewInvitationMail} from "../sengGridCn";
+import {sendContactMail, sendNewInvitationMail} from "../sendGridCn";
 import Contact from "../models/Contact";
 import * as mongoose from "mongoose";
 

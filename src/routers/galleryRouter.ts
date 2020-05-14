@@ -123,4 +123,27 @@ routerGallery.get('/pictures/:id', async(req, res) => {
    }
 });
 
+routerGallery.post('/gallery/addPicture/:galleryName', auth, upload.single('photo'), async(req, res) => {
+    try{
+        const galleryName = req.params.galleryName.replace('.', ' ');
+        const gallery = await Gallery.findOne({galleryName});
+        if(gallery){
+            const file = req.file;
+            const photo = new Photo({
+                name: file.originalname.split('.')[0],
+                type: file.mimetype,
+                picture: file.buffer,
+                gallery
+            });
+            await Photo.create([photo]);
+            res.status(200).send();
+        }else{
+            res.status(404).send();
+        }
+    }catch(error){
+        console.log(error);
+        res.status(500).send();
+    }
+});
+
 export default routerGallery;

@@ -10,6 +10,7 @@ import {getPayloadCookie, getSignatureCookie} from "./cookies";
 import routerGallery from "./routers/galleryRouter";
 import {connect} from "./mongodbCreatiview";
 import mongodb from "./mongodb";
+import contactRouter from "./routers/contactRouter";
 
 connect();
 
@@ -28,6 +29,7 @@ app.use(express.json());
 
 app.use(routerCn);
 app.use(routerGallery);
+app.use(contactRouter);
 
 app.post('/login', async (req, res) => {
     const login = req.body.login;
