@@ -6,8 +6,8 @@ const connect = () => {
         .then((result) => {
             db = result;
         })
-        .catch(() => {
-            console.log('Impossible to connect');
+        .catch((error: any) => {
+            console.log(error);
         })
 }
 

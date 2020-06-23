@@ -11,6 +11,8 @@ import routerGallery from "./routers/galleryRouter";
 import {connect} from "./mongodbCreatiview";
 import mongodb from "./mongodb";
 import contactRouter from "./routers/contactRouter";
+import paymentRouter from "./routers/paymentRouter";
+import webhookRouter from "./routers/webhookRouter";
 
 connect();
 
@@ -25,11 +27,14 @@ if(process.env.NODE_ENV === 'production') {
 
 app.use(allowCn);
 
+app.use(webhookRouter);
+
 app.use(express.json());
 
 app.use(routerCn);
 app.use(routerGallery);
 app.use(contactRouter);
+app.use(paymentRouter);
 
 app.post('/login', async (req, res) => {
     const login = req.body.login;

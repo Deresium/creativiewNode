@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -11,18 +30,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Invitation_1 = __importDefault(require("../models/Invitation"));
 const express_1 = __importDefault(require("express"));
 const Guest_1 = __importDefault(require("../models/Guest"));
-const sengGridCn_1 = require("../sengGridCn");
+const sendGridCn_1 = require("../sendGridCn");
 const Contact_1 = __importDefault(require("../models/Contact"));
 const mongoose = __importStar(require("mongoose"));
 const routerCn = express_1.default.Router();
@@ -47,7 +59,7 @@ routerCn.post('/cn/event', (req, res) => __awaiter(void 0, void 0, void 0, funct
             yield Guest_1.default.create([guest], { session });
         }
         yield session.commitTransaction();
-        yield sengGridCn_1.sendNewInvitationMail(invitation);
+        yield sendGridCn_1.sendNewInvitationMail(invitation);
         res.status(200).send(invitation);
     }
     catch (error) {
@@ -62,7 +74,7 @@ routerCn.post('/cn/event', (req, res) => __awaiter(void 0, void 0, void 0, funct
 routerCn.post('/cn/contact', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const contact = yield Contact_1.default.create(req.body.contact);
-        yield sengGridCn_1.sendContactMail(contact);
+        yield sendGridCn_1.sendContactMail(contact);
         res.status(200).send(contact);
     }
     catch (error) {
