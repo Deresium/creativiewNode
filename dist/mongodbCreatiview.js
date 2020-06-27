@@ -10,10 +10,11 @@ exports.db = db;
 const connect = () => {
     mongoose_1.default.connect(process.env.URL_MONGO_CREATIVIEW, { useNewUrlParser: true, useUnifiedTopology: true, replicaSet: 'rs' })
         .then((result) => {
+        console.log('connection ok', result);
         exports.db = db = result;
     })
         .catch((error) => {
-        console.log(error);
+        console.log('connection failed', error);
     });
 };
 exports.connect = connect;
