@@ -18,9 +18,9 @@ const express_1 = __importDefault(require("express"));
 const Gallery_1 = __importDefault(require("../models/creatiview/Gallery"));
 const Photo_1 = __importDefault(require("../models/creatiview/Photo"));
 const mongodbCreatiview_1 = require("../mongodbCreatiview");
-const routerGallery = express_1.default.Router();
+const galleryRouter = express_1.default.Router();
 const upload = multer_1.default();
-routerGallery.post('/gallery', authentication_1.auth, upload.array('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.post('/gallery', authentication_1.auth, upload.array('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const gallery = new Gallery_1.default(Object.assign({}, req.body));
     gallery.photoList = [];
     let files;
@@ -54,7 +54,7 @@ routerGallery.post('/gallery', authentication_1.auth, upload.array('photo'), (re
         session.endSession();
     }
 }));
-routerGallery.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleries = yield Gallery_1.default.find();
         /*for(let gallery of galleries){
@@ -73,7 +73,7 @@ routerGallery.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(500).send();
     }
 }));
-routerGallery.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryId = req.params.id;
         const gallery = yield Gallery_1.default.findOne({ _id: galleryId });
@@ -96,7 +96,7 @@ routerGallery.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, vo
         res.status(500).send();
     }
 }));
-routerGallery.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const name = req.params.galleryName.replace('.', ' ');
         const gallery = yield Gallery_1.default.findOne({ galleryName: name });
@@ -115,7 +115,7 @@ routerGallery.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 
         res.status(500).send();
     }
 }));
-routerGallery.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idPicture = req.params.id;
         const picture = yield Photo_1.default.findById(idPicture);
@@ -132,7 +132,7 @@ routerGallery.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).send();
     }
 }));
-routerGallery.post('/gallery/addPicture/:galleryName', authentication_1.auth, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.post('/gallery/addPicture/:galleryName', authentication_1.auth, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryName = req.params.galleryName.replace('.', ' ');
         const gallery = yield Gallery_1.default.findOne({ galleryName });
@@ -156,4 +156,4 @@ routerGallery.post('/gallery/addPicture/:galleryName', authentication_1.auth, up
         res.status(500).send();
     }
 }));
-exports.default = routerGallery;
+exports.default = galleryRouter;

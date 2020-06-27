@@ -7,7 +7,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken"
 import allowCredentials from "./middlewares/allowCredentials";
 import {getPayloadCookie, getSignatureCookie} from "./cookies";
-import routerGallery from "./routers/galleryRouter";
+import galleryRouter from "./routers/galleryRouter";
 import {connect} from "./mongodbCreatiview";
 import mongodb from "./mongodb";
 import contactRouter from "./routers/contactRouter";
@@ -33,7 +33,7 @@ app.use(webhookRouter);
 app.use(express.json());
 
 app.use(routerCn);
-app.use(routerGallery);
+app.use(galleryRouter);
 app.use(contactRouter);
 app.use(paymentRouter);
 

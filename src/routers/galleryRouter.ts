@@ -6,10 +6,10 @@ import Photo from "../models/creatiview/Photo";
 import * as mongoose from "mongoose";
 import {db} from "../mongodbCreatiview";
 
-const routerGallery = express.Router();
+const galleryRouter = express.Router();
 
 const upload = multer();
-routerGallery.post('/gallery', auth, upload.array('photo'),async(req, res) => {
+galleryRouter.post('/gallery', auth, upload.array('photo'),async(req, res) => {
     const gallery = new Gallery({
         ...req.body
     })
@@ -48,7 +48,7 @@ routerGallery.post('/gallery', auth, upload.array('photo'),async(req, res) => {
     }
 });
 
-routerGallery.get('/gallery', async(req, res) => {
+galleryRouter.get('/gallery', async(req, res) => {
     try {
         const galleries = await Gallery.find();
         /*for(let gallery of galleries){
@@ -67,7 +67,7 @@ routerGallery.get('/gallery', async(req, res) => {
     }
 });
 
-routerGallery.get('/gallery/:id/mainPicture', async(req, res) => {
+galleryRouter.get('/gallery/:id/mainPicture', async(req, res) => {
     try{
         const galleryId = req.params.id;
         const gallery = await Gallery.findOne({_id: galleryId});
@@ -89,7 +89,7 @@ routerGallery.get('/gallery/:id/mainPicture', async(req, res) => {
     }
 });
 
-routerGallery.get('/gallery/:galleryName', async(req, res) => {
+galleryRouter.get('/gallery/:galleryName', async(req, res) => {
     try{
        const name = req.params.galleryName.replace('.', ' ');
        const gallery = await Gallery.findOne({galleryName: name});
@@ -107,7 +107,7 @@ routerGallery.get('/gallery/:galleryName', async(req, res) => {
     }
 });
 
-routerGallery.get('/pictures/:id', async(req, res) => {
+galleryRouter.get('/pictures/:id', async(req, res) => {
    try{
        const idPicture = req.params.id;
        const picture = await Photo.findById(idPicture);
@@ -123,7 +123,7 @@ routerGallery.get('/pictures/:id', async(req, res) => {
    }
 });
 
-routerGallery.post('/gallery/addPicture/:galleryName', auth, upload.single('photo'), async(req, res) => {
+galleryRouter.post('/gallery/addPicture/:galleryName', auth, upload.single('photo'), async(req, res) => {
     try{
         const galleryName = req.params.galleryName.replace('.', ' ');
         const gallery = await Gallery.findOne({galleryName});
@@ -146,4 +146,4 @@ routerGallery.post('/gallery/addPicture/:galleryName', auth, upload.single('phot
     }
 });
 
-export default routerGallery;
+export default galleryRouter;
