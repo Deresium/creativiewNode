@@ -1,6 +1,7 @@
 import {RequestHandler} from "express";
 
 const redirectHttps: RequestHandler = (req, res, next) => {
+    console.log(req.hostname);
     if (req.header('x-forwarded-proto') !== 'https')
         res.redirect(`https://${req.hostname}${req.url}`);
     else if(!req.hostname.startsWith('www.'))
