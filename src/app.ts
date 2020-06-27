@@ -9,7 +9,6 @@ import allowCredentials from "./middlewares/allowCredentials";
 import {getPayloadCookie, getSignatureCookie} from "./cookies";
 import galleryRouter from "./routers/galleryRouter";
 import {connect} from "./mongodbCreatiview";
-import mongodb from "./mongodb";
 import contactRouter from "./routers/contactRouter";
 import paymentRouter from "./routers/paymentRouter";
 import webhookRouter from "./routers/webhookRouter";
