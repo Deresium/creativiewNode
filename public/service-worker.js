@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.1393f0580bca7cda5cd4e905d485cc70.js"
+  "/precache-manifest.1076b3fefc1e52b9995ff21047305fff.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "creativiewvue"});

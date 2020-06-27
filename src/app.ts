@@ -13,6 +13,7 @@ import mongodb from "./mongodb";
 import contactRouter from "./routers/contactRouter";
 import paymentRouter from "./routers/paymentRouter";
 import webhookRouter from "./routers/webhookRouter";
+import returnIndex from "./middlewares/returnIndex";
 
 connect();
 
@@ -24,7 +25,7 @@ if(process.env.NODE_ENV === 'production') {
 }else{
     app.use(allowCredentials);
 }
-
+app.use(returnIndex);
 app.use(allowCn);
 
 app.use(webhookRouter);

@@ -26,6 +26,7 @@ const mongodbCreatiview_1 = require("./mongodbCreatiview");
 const contactRouter_1 = __importDefault(require("./routers/contactRouter"));
 const paymentRouter_1 = __importDefault(require("./routers/paymentRouter"));
 const webhookRouter_1 = __importDefault(require("./routers/webhookRouter"));
+const returnIndex_1 = __importDefault(require("./middlewares/returnIndex"));
 mongodbCreatiview_1.connect();
 const app = express_1.default();
 const publicDirectoryPath = path_1.default.join(__dirname, '../public');
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 else {
     app.use(allowCredentials_1.default);
 }
+app.use(returnIndex_1.default);
 app.use(allowCn_1.default);
 app.use(webhookRouter_1.default);
 app.use(express_1.default.json());
