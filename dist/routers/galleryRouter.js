@@ -132,6 +132,23 @@ galleryRouter.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).send();
     }
 }));
+galleryRouter.get('/pictures/:galleryName/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const idPicture = req.params.id;
+        const picture = yield Photo_1.default.findById(idPicture);
+        if (picture) {
+            res.set('Content-Type', 'image/jpg');
+            res.send(picture.picture);
+        }
+        else {
+            res.status(404).send();
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send();
+    }
+}));
 galleryRouter.post('/gallery/addPicture/:galleryName', authentication_1.auth, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryName = req.params.galleryName.replace('.', ' ');

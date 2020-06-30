@@ -122,6 +122,22 @@ galleryRouter.get('/pictures/:id', async(req, res) => {
    }
 });
 
+galleryRouter.get('/pictures/:galleryName/:id', async(req, res) => {
+    try{
+        const idPicture = req.params.id;
+        const picture = await Photo.findById(idPicture);
+        if(picture){
+            res.set('Content-Type', 'image/jpg');
+            res.send(picture.picture);
+        }else{
+            res.status(404).send();
+        }
+    }catch(error){
+        console.error(error);
+        res.status(500).send();
+    }
+});
+
 galleryRouter.post('/gallery/addPicture/:galleryName', auth, upload.single('photo'), async(req, res) => {
     try{
         const galleryName = req.params.galleryName.replace('.', ' ');
