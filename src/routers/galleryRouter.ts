@@ -3,7 +3,6 @@ import {auth} from "../middlewares/authentication";
 import express from "express";
 import Gallery from "../models/creatiview/Gallery";
 import Photo from "../models/creatiview/Photo";
-import * as mongoose from "mongoose";
 import {db} from "../mongodbCreatiview";
 
 const galleryRouter = express.Router();
@@ -48,7 +47,7 @@ galleryRouter.post('/gallery', auth, upload.array('photo'),async(req, res) => {
     }
 });
 
-galleryRouter.get('/galleries', async(req, res) => {
+galleryRouter.get('/gallery', async(req, res) => {
     try {
         const galleries = await Gallery.find();
         /*for(let gallery of galleries){
