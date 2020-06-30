@@ -54,7 +54,7 @@ galleryRouter.post('/gallery', authentication_1.auth, upload.array('photo'), (re
         session.endSession();
     }
 }));
-galleryRouter.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.get('/galleries', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleries = yield Gallery_1.default.find();
         /*for(let gallery of galleries){

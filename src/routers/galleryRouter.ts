@@ -48,7 +48,7 @@ galleryRouter.post('/gallery', auth, upload.array('photo'),async(req, res) => {
     }
 });
 
-galleryRouter.get('/gallery', async(req, res) => {
+galleryRouter.get('/galleries', async(req, res) => {
     try {
         const galleries = await Gallery.find();
         /*for(let gallery of galleries){
