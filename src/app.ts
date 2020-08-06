@@ -1,8 +1,7 @@
 import express from "express";
 import path from "path";
-import routerCn from "./routers/cnRouter";
 import redirectHttps from "./middlewares/redirectHttps";
-import allowCn from "./middlewares/allowCn";
+import allowLocalhost from "./middlewares/allowLocalhost";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken"
 import allowCredentials from "./middlewares/allowCredentials";
@@ -23,15 +22,15 @@ if(process.env.NODE_ENV === 'production') {
     app.use(redirectHttps);
 }else{
     app.use(allowCredentials);
+    app.use(allowLocalhost);
 }
+
 app.use(returnIndex);
-app.use(allowCn);
 
 app.use(webhookRouter);
 
 app.use(express.json());
 
-app.use(routerCn);
 app.use(galleryRouter);
 app.use(contactRouter);
 app.use(paymentRouter);

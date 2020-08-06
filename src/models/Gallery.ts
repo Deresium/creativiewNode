@@ -1,5 +1,5 @@
 import {Schema} from "mongoose";
-import GalleryDocument from "../../interfaces/creatiview/GalleryDocument";
+import GalleryDocument from "../interfaces/GalleryDocument";
 import * as mongoose from "mongoose";
 
 const gallerySchema = new Schema({

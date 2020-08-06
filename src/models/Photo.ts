@@ -1,6 +1,6 @@
 import {Schema} from "mongoose";
 import mongoose from "mongoose";
-import PhotoDocument from "../../interfaces/creatiview/PhotoDocument";
+import PhotoDocument from "../interfaces/PhotoDocument";
 
 const photoSchema = new Schema({
    name: {

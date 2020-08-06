@@ -1,6 +1,6 @@
 import sgMail from '@sendgrid/mail'
-import ContactCreativiewDocument from "./interfaces/creatiview/ContactCreativiewDocument";
-import AskingDocument from "./interfaces/creatiview/AskingDocument";
+import ContactCreativiewDocument from "./interfaces/ContactCreativiewDocument";
+import AskingDocument from "./interfaces/AskingDocument";
 
 
 sgMail.setApiKey(process.env.SENDGRID_CREATIVIEW);

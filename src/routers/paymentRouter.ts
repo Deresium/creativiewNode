@@ -1,5 +1,5 @@
 import express from "express";
-import Asking from "../models/creatiview/Asking";
+import Asking from "../models/Asking";
 const stripe = require('stripe')(process.env.SK_STRIPE);
 
 const paymentRouter = express.Router();

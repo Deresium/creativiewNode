@@ -1,6 +1,6 @@
 import {Schema} from "mongoose";
 import mongoose from "mongoose";
-import AskingDocument from "../../interfaces/creatiview/AskingDocument";
+import AskingDocument from "../interfaces/AskingDocument";
 import validate = WebAssembly.validate;
 import validator from "validator";
 

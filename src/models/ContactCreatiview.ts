@@ -1,6 +1,6 @@
 import {Schema} from "mongoose";
 import mongoose from "mongoose";
-import ContactCreativiewDocument from "../../interfaces/creatiview/ContactCreativiewDocument";
+import ContactCreativiewDocument from "../interfaces/ContactCreativiewDocument";
 
 const contactCreativiewSchema = new Schema({
     name: {

@@ -1,8 +1,8 @@
 import multer from "multer";
 import {auth} from "../middlewares/authentication";
 import express from "express";
-import Gallery from "../models/creatiview/Gallery";
-import Photo from "../models/creatiview/Photo";
+import Gallery from "../models/Gallery";
+import Photo from "../models/Photo";
 import {db} from "../mongodbCreatiview";
 
 const galleryRouter = express.Router();

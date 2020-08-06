@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const Asking_1 = __importDefault(require("../models/creatiview/Asking"));
+const Asking_1 = __importDefault(require("../models/Asking"));
 const sendgridCreatiview_1 = require("../sendgridCreatiview");
 const stripe = require('stripe')(process.env.SK_STRIPE);
 /*import server from "../index";

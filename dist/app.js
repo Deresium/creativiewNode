@@ -14,9 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
-const cnRouter_1 = __importDefault(require("./routers/cnRouter"));
 const redirectHttps_1 = __importDefault(require("./middlewares/redirectHttps"));
-const allowCn_1 = __importDefault(require("./middlewares/allowCn"));
+const allowLocalhost_1 = __importDefault(require("./middlewares/allowLocalhost"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const allowCredentials_1 = __importDefault(require("./middlewares/allowCredentials"));
@@ -35,12 +34,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 else {
     app.use(allowCredentials_1.default);
+    app.use(allowLocalhost_1.default);
 }
 app.use(returnIndex_1.default);
-app.use(allowCn_1.default);
 app.use(webhookRouter_1.default);
 app.use(express_1.default.json());
-app.use(cnRouter_1.default);
 app.use(galleryRouter_1.default);
 app.use(contactRouter_1.default);
 app.use(paymentRouter_1.default);

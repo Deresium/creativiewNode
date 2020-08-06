@@ -1,6 +1,5 @@
 import express from "express";
-import ContactCreatiview from "../models/creatiview/ContactCreatiview";
-import Contact from "../models/Contact";
+import ContactCreatiview from "../models/ContactCreatiview";
 import {sendContactMail} from "../sendgridCreatiview";
 
 

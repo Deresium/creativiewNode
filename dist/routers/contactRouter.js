@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const ContactCreatiview_1 = __importDefault(require("../models/creatiview/ContactCreatiview"));
+const ContactCreatiview_1 = __importDefault(require("../models/ContactCreatiview"));
 const sendgridCreatiview_1 = require("../sendgridCreatiview");
 const contactRouter = express_1.default.Router();
 contactRouter.post('/contact', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
