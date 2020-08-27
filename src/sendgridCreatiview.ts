@@ -4,7 +4,7 @@ import AskingDocument from "./interfaces/AskingDocument";
 
 
 sgMail.setApiKey(process.env.SENDGRID_CREATIVIEW);
-const to = 'dimitri.steinbusch@hotmail.com';
+const to = 'dimitri.steinbusch@creatiview.be';
 const from = 'no-reply@creatiview.be';
 const sendContactMail = async(contact: ContactCreativiewDocument)=>{
     await sgMail.send({

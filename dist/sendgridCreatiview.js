@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStringAmount = exports.sendSuccessPaymentMail = exports.sendContactMail = void 0;
 const mail_1 = __importDefault(require("@sendgrid/mail"));
 mail_1.default.setApiKey(process.env.SENDGRID_CREATIVIEW);
-const to = 'dimitri.steinbusch@hotmail.com';
+const to = 'dimitri.steinbusch@creatiview.be';
 const from = 'no-reply@creatiview.be';
 const sendContactMail = (contact) => __awaiter(void 0, void 0, void 0, function* () {
     yield mail_1.default.send({
