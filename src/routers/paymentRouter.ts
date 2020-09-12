@@ -1,24 +1,20 @@
 import express from "express";
-import Asking from "../models/Asking";
+import Asking from "../db/models/Asking";
 const stripe = require('stripe')(process.env.SK_STRIPE);
 
 const paymentRouter = express.Router();
 
 paymentRouter.post('/createTransaction', async(req, res) => {
-    const asking = new Asking({
-        ...req.body,
-        creationDate: Date.now()
-    });
     try{
-        await Asking.create([asking]);
+        await Asking.create({...req.body});
         res.send();
     }catch(error){
         console.log(error);
         res.sendStatus(500);
     }
 })
-
-/*paymentRouter.post('/chargeTransaction', async(req, res) => {
+/*
+/!*paymentRouter.post('/chargeTransaction', async(req, res) => {
     const clientId = req.body.clientId;
     if(clientId){
         const payment = await Payment.findOne({clientId});
@@ -39,8 +35,8 @@ paymentRouter.post('/createTransaction', async(req, res) => {
     }else{
         res.sendStatus(404);
     }
-})*/
+})*!/
 
 
-
+*/
 export default paymentRouter;

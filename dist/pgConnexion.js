@@ -1,0 +1,32 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sequelize = exports.connect = void 0;
+const sequelize_1 = require("sequelize");
+let sequelize = null;
+exports.sequelize = sequelize;
+const connect = () => {
+    console.log('try to connect...');
+    exports.sequelize = sequelize = new sequelize_1.Sequelize(process.env.URL_PG);
+    /*if(process.env.NODE_ENV !== 'production')
+        sequelize.sync({alter: true});*/
+    const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield sequelize.authenticate();
+            console.log('connection ok');
+        }
+        catch (error) {
+            console.log('connection error', error);
+        }
+    });
+    testConnection();
+};
+exports.connect = connect;

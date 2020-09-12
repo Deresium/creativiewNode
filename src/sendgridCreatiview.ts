@@ -1,12 +1,12 @@
 import sgMail from '@sendgrid/mail'
-import ContactCreativiewDocument from "./interfaces/ContactCreativiewDocument";
-import AskingDocument from "./interfaces/AskingDocument";
+import Contact from "./db/models/Contact";
+import Asking from "./db/models/Asking";
 
 
 sgMail.setApiKey(process.env.SENDGRID_CREATIVIEW);
 const to = 'dimitri.steinbusch@creatiview.be';
 const from = 'no-reply@creatiview.be';
-const sendContactMail = async(contact: ContactCreativiewDocument)=>{
+const sendContactMail = async(contact: Contact)=>{
     await sgMail.send({
         to,
         from,
@@ -16,13 +16,13 @@ const sendContactMail = async(contact: ContactCreativiewDocument)=>{
     });
 };
 
-const getMessage = (contact: ContactCreativiewDocument, separator: string) => {
+const getMessage = (contact: Contact, separator: string) => {
     return `Nouveau message de ${contact.firstName} ${contact.name} (${contact.email}):${separator}
         ${contact.message.replace('\n', separator)}
     `
 }
 
-const sendSuccessPaymentMail = async(payment: AskingDocument) => {
+const sendSuccessPaymentMail = async(payment: Asking) => {
     await sgMail.send({
         to: payment.email,
         from,
@@ -32,7 +32,7 @@ const sendSuccessPaymentMail = async(payment: AskingDocument) => {
     });
 }
 
-const getPaymentMessage = (payment: AskingDocument, html: boolean) => {
+const getPaymentMessage = (payment: Asking, html: boolean) => {
     const separator = html? '<br/>':'\n';
     return `
     Je vous remercie pour le support que vous m'appoter cela me touche beaucoup.${separator}

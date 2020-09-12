@@ -14,11 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const Asking_1 = __importDefault(require("../models/Asking"));
+const Asking_1 = __importDefault(require("../db/models/Asking"));
 const sendgridCreatiview_1 = require("../sendgridCreatiview");
 const stripe = require('stripe')(process.env.SK_STRIPE);
-/*import server from "../index";
-const io = require("socket.io")(server);*/
 const webhookRouter = express_1.default.Router();
 webhookRouter.post('/webhook', body_parser_1.default.raw({ type: 'application/json' }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const signature = req.headers['stripe-signature'];
@@ -29,9 +27,8 @@ webhookRouter.post('/webhook', body_parser_1.default.raw({ type: 'application/js
         switch (event.type) {
             case 'source.chargeable':
                 clientId = event.data.object.id;
-                asking = yield Asking_1.default.findOne({ clientId });
+                asking = yield Asking_1.default.findOne({ where: { clientId } });
                 if (asking) {
-                    asking.updateDate = Date.now();
                     asking.paymentState = 'CHARGEABLLE';
                     yield asking.save();
                 }
@@ -49,9 +46,8 @@ webhookRouter.post('/webhook', body_parser_1.default.raw({ type: 'application/js
                 break;
             case 'source.failed':
                 clientId = event.data.object.id;
-                asking = yield Asking_1.default.findOne({ clientId });
+                asking = yield Asking_1.default.findOne({ where: { clientId } });
                 if (asking) {
-                    asking.updateDate = Date.now();
                     asking.paymentState = 'FAILED';
                     yield asking.save();
                 }
@@ -59,9 +55,8 @@ webhookRouter.post('/webhook', body_parser_1.default.raw({ type: 'application/js
                 break;
             case 'charge.succeeded':
                 clientId = event.data.object.payment_method;
-                asking = yield Asking_1.default.findOne({ clientId });
+                asking = yield Asking_1.default.findOne({ where: { clientId } });
                 if (asking) {
-                    asking.updateDate = Date.now();
                     asking.paymentState = 'SUCCEEDED';
                     yield asking.save();
                     yield sendgridCreatiview_1.sendSuccessPaymentMail(asking);
@@ -72,12 +67,6 @@ webhookRouter.post('/webhook', body_parser_1.default.raw({ type: 'application/js
                 res.sendStatus(400);
                 break;
         }
-        /*io.on("connection", (socket: any) => {
-            console.log('new connection');
-            if(successPayment){
-                io.sockets.emit('successPayment', clientId);
-            }
-        });*/
     }
     catch (error) {
         console.log(error.message);

@@ -13,13 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const Asking_1 = __importDefault(require("../models/Asking"));
+const Asking_1 = __importDefault(require("../db/models/Asking"));
 const stripe = require('stripe')(process.env.SK_STRIPE);
 const paymentRouter = express_1.default.Router();
 paymentRouter.post('/createTransaction', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const asking = new Asking_1.default(Object.assign(Object.assign({}, req.body), { creationDate: Date.now() }));
     try {
-        yield Asking_1.default.create([asking]);
+        yield Asking_1.default.create(Object.assign({}, req.body));
         res.send();
     }
     catch (error) {
@@ -27,7 +26,8 @@ paymentRouter.post('/createTransaction', (req, res) => __awaiter(void 0, void 0,
         res.sendStatus(500);
     }
 }));
-/*paymentRouter.post('/chargeTransaction', async(req, res) => {
+/*
+/!*paymentRouter.post('/chargeTransaction', async(req, res) => {
     const clientId = req.body.clientId;
     if(clientId){
         const payment = await Payment.findOne({clientId});
@@ -48,5 +48,8 @@ paymentRouter.post('/createTransaction', (req, res) => __awaiter(void 0, void 0,
     }else{
         res.sendStatus(404);
     }
-})*/
+})*!/
+
+
+*/
 exports.default = paymentRouter;

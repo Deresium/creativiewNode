@@ -6,14 +6,15 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken"
 import allowCredentials from "./middlewares/allowCredentials";
 import {getPayloadCookie, getSignatureCookie} from "./cookies";
-import galleryRouter from "./routers/galleryRouter";
-import {connect} from "./mongodbCreatiview";
-import contactRouter from "./routers/contactRouter";
-import paymentRouter from "./routers/paymentRouter";
-import webhookRouter from "./routers/webhookRouter";
+import {connect} from "./pgConnexion";
 import returnIndex from "./middlewares/returnIndex";
 
 connect();
+
+import contactRouter from "./routers/contactRouter";
+import galleryRouter from "./routers/galleryRouter";
+import webhookRouter from "./routers/webhookRouter";
+import paymentRouter from "./routers/paymentRouter";
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');

@@ -15,57 +15,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const authentication_1 = require("../middlewares/authentication");
 const express_1 = __importDefault(require("express"));
-const Gallery_1 = __importDefault(require("../models/Gallery"));
-const Photo_1 = __importDefault(require("../models/Photo"));
-const mongodbCreatiview_1 = require("../mongodbCreatiview");
+const Gallery_1 = __importDefault(require("../db/models/Gallery"));
+const Photo_1 = __importDefault(require("../db/models/Photo"));
+const pgConnexion_1 = require("../pgConnexion");
 const galleryRouter = express_1.default.Router();
 const upload = multer_1.default();
 galleryRouter.post('/gallery', authentication_1.auth, upload.array('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const gallery = new Gallery_1.default(Object.assign({}, req.body));
-    gallery.photoList = [];
-    let files;
-    files = req.files;
-    files.forEach((file) => {
-        gallery.photoList.push(new Photo_1.default({
-            name: file.originalname.split('.')[0],
-            type: file.mimetype,
-            picture: file.buffer,
-            gallery
-        }));
-    });
-    yield Gallery_1.default.createCollection();
-    yield Photo_1.default.createCollection();
-    const session = yield mongodbCreatiview_1.db.startSession();
-    session.startTransaction();
     try {
-        yield Gallery_1.default.create([gallery], { session });
-        for (const photo of gallery.photoList) {
-            yield Photo_1.default.create([photo], { session });
-        }
-        yield session.commitTransaction();
-        res.status(200).send();
+        yield pgConnexion_1.sequelize.transaction((t) => __awaiter(void 0, void 0, void 0, function* () {
+            console.log(req.body);
+            const gallery = yield Gallery_1.default.create(Object.assign({}, req.body), { transaction: t });
+            const files = req.files;
+            for (const file of files) {
+                yield Photo_1.default.create({
+                    name: file.originalname.split('.')[0],
+                    type: file.mimetype,
+                    picture: file.buffer,
+                    galleryId: gallery.id
+                }, {
+                    transaction: t
+                });
+            }
+        }));
+        res.status(200);
     }
     catch (error) {
-        yield session.abortTransaction();
-        console.error(error);
+        console.log(error);
         res.status(500).send();
-    }
-    finally {
-        session.endSession();
     }
 }));
 galleryRouter.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const galleries = yield Gallery_1.default.find();
-        /*for(let gallery of galleries){
-            await gallery.populate({
-                path: 'photoList',
-                options:{
-                    limit: 1
-                }
-            }).execPopulate();
-            res.send(gallery.photoList);
-        }*/
+        const galleries = yield Gallery_1.default.findAll();
         res.send(galleries);
     }
     catch (error) {
@@ -76,20 +57,12 @@ galleryRouter.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, fu
 galleryRouter.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryId = req.params.id;
-        const gallery = yield Gallery_1.default.findOne({ _id: galleryId });
-        if (gallery) {
-            yield gallery.populate({
-                path: 'photoList',
-                options: {
-                    limit: 1
-                }
-            }).execPopulate();
-            res.set('Content-Type', 'image/jpg');
-            res.send(gallery.photoList[0].picture);
+        const gallery = yield Gallery_1.default.findByPk(galleryId, { include: [Gallery_1.default.associations.photos] });
+        if (gallery && gallery.photos) {
+            res.send(gallery.photos[0].picture);
         }
-        else {
+        else
             res.status(404).send();
-        }
     }
     catch (error) {
         console.log(error);
@@ -99,17 +72,11 @@ galleryRouter.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, vo
 galleryRouter.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const name = req.params.galleryName.replace('.', ' ');
-        const gallery = yield Gallery_1.default.findOne({ galleryName: name });
-        if (gallery) {
-            yield gallery.populate({
-                path: 'photoList',
-                select: '_id'
-            }).execPopulate();
-            res.send(gallery.photoList);
-        }
-        else {
+        const gallery = yield Gallery_1.default.findOne({ where: { name }, include: [Gallery_1.default.associations.photos] });
+        if (gallery)
+            res.send(gallery.photos);
+        else
             res.status(404).send();
-        }
     }
     catch (error) {
         res.status(500).send();
@@ -118,7 +85,7 @@ galleryRouter.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 
 galleryRouter.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idPicture = req.params.id;
-        const picture = yield Photo_1.default.findById(idPicture);
+        const picture = yield Photo_1.default.findByPk(idPicture);
         if (picture) {
             res.set('Content-Type', 'image/jpg');
             res.send(picture.picture);
@@ -135,7 +102,7 @@ galleryRouter.get('/pictures/:id', (req, res) => __awaiter(void 0, void 0, void 
 galleryRouter.get('/pictures/:galleryName/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idPicture = req.params.id;
-        const picture = yield Photo_1.default.findById(idPicture);
+        const picture = yield Photo_1.default.findByPk(idPicture);
         if (picture) {
             res.set('Content-Type', 'image/jpg');
             res.send(picture.picture);
@@ -152,16 +119,15 @@ galleryRouter.get('/pictures/:galleryName/:id', (req, res) => __awaiter(void 0, 
 galleryRouter.post('/gallery/addPicture/:galleryName', authentication_1.auth, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryName = req.params.galleryName.replace('.', ' ');
-        const gallery = yield Gallery_1.default.findOne({ galleryName });
+        const gallery = yield Gallery_1.default.findOne({ where: { name: galleryName } });
         if (gallery) {
             const file = req.file;
-            const photo = new Photo_1.default({
+            yield Photo_1.default.create({
                 name: file.originalname.split('.')[0],
                 type: file.mimetype,
                 picture: file.buffer,
-                gallery
+                galleryId: gallery.id
             });
-            yield Photo_1.default.create([photo]);
             res.status(200).send();
         }
         else {

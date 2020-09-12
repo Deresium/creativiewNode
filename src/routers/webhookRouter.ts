@@ -1,11 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-import Asking from "../models/Asking";
-import AskingDocument from "../interfaces/AskingDocument";
+import Asking from "../db/models/Asking";
 import {sendSuccessPaymentMail} from "../sendgridCreatiview";
 const stripe = require('stripe')(process.env.SK_STRIPE);
-/*import server from "../index";
-const io = require("socket.io")(server);*/
 
 const webhookRouter = express.Router();
 
@@ -15,13 +12,12 @@ webhookRouter.post('/webhook', bodyParser.raw({type: 'application/json'}), async
     try{
         const event = stripe.webhooks.constructEvent(req.body, signature, process.env.STRIPE_SECRET);
         let clientId: string;
-        let asking: AskingDocument | null;
+        let asking: Asking | null;
         switch(event.type){
             case 'source.chargeable':
                 clientId = event.data.object.id;
-                asking = await Asking.findOne({clientId});
+                asking = await Asking.findOne({where:{clientId}});
                 if(asking){
-                    asking.updateDate = Date.now();
                     asking.paymentState = 'CHARGEABLLE';
                     await asking.save();
                 }
@@ -38,9 +34,8 @@ webhookRouter.post('/webhook', bodyParser.raw({type: 'application/json'}), async
                 break;
             case 'source.failed':
                 clientId = event.data.object.id;
-                asking = await Asking.findOne({clientId});
+                asking = await Asking.findOne({where:{clientId}});
                 if(asking){
-                    asking.updateDate = Date.now();
                     asking.paymentState = 'FAILED';
                     await asking.save();
                 }
@@ -48,9 +43,8 @@ webhookRouter.post('/webhook', bodyParser.raw({type: 'application/json'}), async
                 break;
             case 'charge.succeeded':
                 clientId = event.data.object.payment_method;
-                asking = await Asking.findOne({clientId});
+                asking = await Asking.findOne({where:{clientId}});
                 if(asking){
-                    asking.updateDate = Date.now();
                     asking.paymentState = 'SUCCEEDED';
                     await asking.save();
                     await sendSuccessPaymentMail(asking);
@@ -61,12 +55,6 @@ webhookRouter.post('/webhook', bodyParser.raw({type: 'application/json'}), async
                 res.sendStatus(400);
                 break;
         }
-        /*io.on("connection", (socket: any) => {
-            console.log('new connection');
-            if(successPayment){
-                io.sockets.emit('successPayment', clientId);
-            }
-        });*/
 
     }catch(error){
         console.log(error.message);

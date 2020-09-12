@@ -13,19 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const ContactCreatiview_1 = __importDefault(require("../models/ContactCreatiview"));
+const Contact_1 = __importDefault(require("../db/models/Contact"));
 const sendgridCreatiview_1 = require("../sendgridCreatiview");
 const contactRouter = express_1.default.Router();
 contactRouter.post('/contact', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const contact = new ContactCreatiview_1.default(Object.assign({}, req.body));
     try {
-        const createdContact = yield ContactCreatiview_1.default.create([contact]);
-        yield sendgridCreatiview_1.sendContactMail(createdContact[0]);
+        const contact = yield Contact_1.default.create(Object.assign({}, req.body));
+        yield sendgridCreatiview_1.sendContactMail(contact);
+        res.send();
     }
     catch (error) {
         console.log(error);
         res.status(500);
     }
-    res.send();
 }));
 exports.default = contactRouter;
