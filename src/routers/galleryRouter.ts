@@ -63,7 +63,7 @@ galleryRouter.get('/gallery/:id/mainPicture', async(req, res) => {
 galleryRouter.get('/gallery/:galleryName', async(req, res) => {
     try{
        const name = req.params.galleryName.replace('.', ' ');
-       const gallery = await Gallery.findOne({where: {name}, include: [Gallery.associations.photos]});
+       const gallery = await Gallery.findOne({where: {name}, include: [{association: Gallery.associations.photos, attributes: ['id']}]});
        if(gallery)
            res.send(gallery.photos);
        else

@@ -72,7 +72,7 @@ galleryRouter.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, vo
 galleryRouter.get('/gallery/:galleryName', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const name = req.params.galleryName.replace('.', ' ');
-        const gallery = yield Gallery_1.default.findOne({ where: { name }, include: [Gallery_1.default.associations.photos] });
+        const gallery = yield Gallery_1.default.findOne({ where: { name }, include: [{ association: Gallery_1.default.associations.photos, attributes: ['id'] }] });
         if (gallery)
             res.send(gallery.photos);
         else
