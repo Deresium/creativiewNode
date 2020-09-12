@@ -57,7 +57,7 @@ galleryRouter.get('/gallery', (req, res) => __awaiter(void 0, void 0, void 0, fu
 galleryRouter.get('/gallery/:id/mainPicture', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryId = req.params.id;
-        const gallery = yield Gallery_1.default.findByPk(galleryId, { include: [Gallery_1.default.associations.photos] });
+        const gallery = yield Gallery_1.default.findByPk(galleryId, { include: [{ association: Gallery_1.default.associations.photos, attributes: ['picture'], limit: 1 }] });
         if (gallery && gallery.photos) {
             res.send(gallery.photos[0].picture);
         }

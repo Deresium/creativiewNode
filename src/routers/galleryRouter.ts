@@ -47,7 +47,7 @@ galleryRouter.get('/gallery', async(req, res) => {
 galleryRouter.get('/gallery/:id/mainPicture', async(req, res) => {
     try{
         const galleryId = req.params.id;
-        const gallery = await Gallery.findByPk(galleryId, {include: [Gallery.associations.photos]});
+        const gallery = await Gallery.findByPk(galleryId, {include: [{association: Gallery.associations.photos, attributes: ['picture'], limit: 1}]});
         if(gallery && gallery.photos) {
             res.send(gallery.photos[0].picture);
         }
