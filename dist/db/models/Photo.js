@@ -37,3 +37,4 @@ Photo.init({
 });
 Gallery_1.default.hasMany(Photo, { sourceKey: "id", foreignKey: "galleryId", as: "photos" });
 Photo.belongsTo(Gallery_1.default, { foreignKey: "galleryId", targetKey: "id" });
+//# sourceMappingURL=Photo.js.map

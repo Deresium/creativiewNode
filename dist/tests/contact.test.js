@@ -14,3 +14,4 @@ test('contact', async()=>{
         }
     }).expect(200);
 })*/
+//# sourceMappingURL=contact.test.js.map

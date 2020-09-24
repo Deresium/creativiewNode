@@ -9,3 +9,4 @@ const redirectHttps = (req, res, next) => {
         next();
 };
 exports.default = redirectHttps;
+//# sourceMappingURL=redirectHttps.js.map

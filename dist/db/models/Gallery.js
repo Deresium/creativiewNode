@@ -27,3 +27,4 @@ Gallery.init({
     tableName: 'Galleries',
     sequelize: pgConnexion_1.sequelize
 });
+//# sourceMappingURL=Gallery.js.map

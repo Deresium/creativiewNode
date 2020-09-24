@@ -17,3 +17,4 @@ test('expect 12345 to be 123.45', () =>{
 test('expect 75 to be 0.75', () =>{
     expect(getStringAmount(75)).toBe('0.75');
 });*/
+//# sourceMappingURL=payment.test.js.map

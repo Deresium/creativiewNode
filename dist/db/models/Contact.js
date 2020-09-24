@@ -34,3 +34,4 @@ Contact.init({
     tableName: 'Contacts',
     sequelize: pgConnexion_1.sequelize
 });
+//# sourceMappingURL=Contact.js.map

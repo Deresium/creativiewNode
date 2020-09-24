@@ -140,3 +140,4 @@ galleryRouter.post('/gallery/addPicture/:galleryName', authentication_1.auth, up
     }
 }));
 exports.default = galleryRouter;
+//# sourceMappingURL=galleryRouter.js.map

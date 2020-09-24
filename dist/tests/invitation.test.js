@@ -28,3 +28,4 @@ test('createInvitation', async()=>{
         }
     }).expect(200);
 })*/
+//# sourceMappingURL=invitation.test.js.map

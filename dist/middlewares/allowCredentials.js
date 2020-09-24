@@ -5,3 +5,4 @@ const allowCredentials = (req, res, next) => {
     next();
 };
 exports.default = allowCredentials;
+//# sourceMappingURL=allowCredentials.js.map

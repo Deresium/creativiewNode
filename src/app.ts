@@ -2,10 +2,6 @@ import express from "express";
 import path from "path";
 import redirectHttps from "./middlewares/redirectHttps";
 import allowLocalhost from "./middlewares/allowLocalhost";
-import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken"
-import allowCredentials from "./middlewares/allowCredentials";
-import {getPayloadCookie, getSignatureCookie} from "./cookies";
 import {connect} from "./pgConnexion";
 import returnIndex from "./middlewares/returnIndex";
 
@@ -15,6 +11,7 @@ import contactRouter from "./routers/contactRouter";
 import galleryRouter from "./routers/galleryRouter";
 import webhookRouter from "./routers/webhookRouter";
 import paymentRouter from "./routers/paymentRouter";
+import userRouter from "./routers/userRouter";
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -22,7 +19,7 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 if(process.env.NODE_ENV === 'production') {
     app.use(redirectHttps);
 }else{
-    app.use(allowCredentials);
+    //app.use(allowCredentials);
     app.use(allowLocalhost);
 }
 
@@ -32,25 +29,11 @@ app.use(webhookRouter);
 
 app.use(express.json());
 
+app.use(userRouter);
 app.use(galleryRouter);
 app.use(contactRouter);
 app.use(paymentRouter);
 
-app.post('/login', async (req, res) => {
-    const login = req.body.login;
-    const password = req.body.password;
-    const pwOk = await bcryptjs.compare(password,process.env.ADMIN_PW);
-    if(login === process.env.ADMIN_LOGIN && pwOk){
-        const token = jwt.sign({admin: true}, process.env.JWT_SECRET).split('.');
-        const signatureCookieValue = token[2];
-        const payloadCookieValue = `${token[0]}.${token[1]}`;
-        res.setHeader('Set-Cookie', [getSignatureCookie(signatureCookieValue), getPayloadCookie(payloadCookieValue)]);
-        res.status(200);
-    }else{
-        res.status(401);
-    }
-    res.send();
-})
 
 app.use(express.static(publicDirectoryPath));
 

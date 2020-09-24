@@ -44,3 +44,4 @@ Asking.init({
     sequelize: pgConnexion_1.sequelize
 });
 Asking.belongsTo(Photo_1.default, { targetKey: "id", foreignKey: "photoId", as: "photo" });
+//# sourceMappingURL=Asking.js.map

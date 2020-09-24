@@ -72,3 +72,4 @@ const getContactLink = (html) => {
     else
         return `${process.env.URL_CREATIVIEW}/contact`;
 };
+//# sourceMappingURL=sendgridCreatiview.js.map

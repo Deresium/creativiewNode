@@ -30,3 +30,4 @@ const connect = () => {
     testConnection();
 };
 exports.connect = connect;
+//# sourceMappingURL=pgConnexion.js.map

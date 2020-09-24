@@ -6,9 +6,11 @@
   "scripts": {
     "start": "node dist/index.js",
     "serve": "env-cmd -f ./dev.env nodemon dist/index.js",
+    "debug": "env-cmd -f ./dev.env nodemon --inspect dist/index.js",
     "test": "env-cmd -f ./test.env jest dist/tests",
     "testContact": "env-cmd -f ./test.env jest dist/tests/contact.test.js",
-    "testPayment": "env-cmd -f ./test.env jest dist/tests/payment.test.js"
+    "testPayment": "env-cmd -f ./test.env jest dist/tests/payment.test.js",
+    "migrateDev": "env-cmd -f ./dev.env npx sequelize-cli db:migrate"
   },
   "jest": {
     "testEnvironment": "node"
@@ -37,6 +39,7 @@
     "body-parser": "^1.19.0",
     "cookie": "^0.4.1",
     "express": "^4.17.1",
+    "google-auth-library": "^6.0.6",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "pg": "^8.3.3",

@@ -32,3 +32,4 @@ exports.auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         res.status(401).send({ error: 'Please authenticate' });
     }
 });
+//# sourceMappingURL=authentication.js.map
