@@ -1,14 +1,12 @@
 import {Model, DataTypes} from "sequelize";
 import {sequelize} from "../../../pgConnexion";
 
-export default class SubCategory extends Model{
+export default class UnitMesureCat extends Model{
 	private id!: number;
 	private name!: string;
-	private abbreviation!: string;
-	private categoryId!: number;
 }
 
-SubCategory.init({
+UnitMesureCat.init({
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
@@ -17,16 +15,8 @@ SubCategory.init({
 	name: {
 		type: new DataTypes.STRING(256),
 		allowNull: false
-	},
-	abbreviation: {
-		type: new DataTypes.STRING(16),
-		allowNull: false
-	},
-	categoryId: {
-		type: DataTypes.INTEGER,
-		allowNull: false
 	}
 },{
-	tableName: 'Subcategories',
+	tableName: 'Unitmesurecats',
 	sequelize
 });

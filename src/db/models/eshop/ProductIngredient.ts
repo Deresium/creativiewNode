@@ -5,7 +5,7 @@ export default class ProductIngredient extends Model{
 	private id!: number;
 	private productId!: number;
 	private ingredientId!: number;
-	private unitMesureId: number;
+	private categoryId!: number;
 	private quantity: number;
 	private startDate!: Date;
 	private endDate!: Date;
@@ -25,7 +25,7 @@ ProductIngredient.init({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	},
-	unitMesureId: {
+	categoryId: {
 		type: DataTypes.INTEGER,
 		allowNull: false
 	},
@@ -39,7 +39,7 @@ ProductIngredient.init({
 	},
 	endDate: {
 		type: DataTypes.DATE,
-		allowNull: false
+		allowNull: true
 	}
 },{
 	tableName: 'ProductIngredients',

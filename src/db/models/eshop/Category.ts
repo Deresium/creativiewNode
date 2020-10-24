@@ -1,9 +1,10 @@
-import {Model, DataTypes} from "sequelize";
+import {Model, DataTypes, Association} from "sequelize";
 import {sequelize} from "../../../pgConnexion";
 
 export default class Category extends Model{
 	private id: number;
 	private name: string;
+	private abbreviation: string;
 }
 
 Category.init({
@@ -15,8 +16,12 @@ Category.init({
 	name: {
 		type: new DataTypes.STRING(256),
 		allowNull: false
+	},
+	abbreviation: {
+		type: new DataTypes.STRING(64),
+		allowNull: false
 	}
 },{
 	tableName: 'Categories',
 	sequelize
-})
+});

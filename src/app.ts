@@ -12,6 +12,8 @@ import galleryRouter from "./routers/galleryRouter";
 import webhookRouter from "./routers/webhookRouter";
 import paymentRouter from "./routers/paymentRouter";
 import userRouter from "./routers/userRouter";
+import categoryRouter from "./routers/categoryRouter";
+import productRouter from "./routers/productRouter";
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -33,6 +35,8 @@ app.use(userRouter);
 app.use(galleryRouter);
 app.use(contactRouter);
 app.use(paymentRouter);
+app.use(categoryRouter);
+app.use(productRouter);
 
 
 app.use(express.static(publicDirectoryPath));

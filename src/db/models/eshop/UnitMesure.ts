@@ -5,6 +5,7 @@ export default class UnitMesure extends Model{
 	private id!: number;
 	private name!: string;
 	private abbreviation!: string;
+	private unitMesureCat!: number;
 }
 
 UnitMesure.init({
@@ -19,6 +20,10 @@ UnitMesure.init({
 	},
 	abbreviation: {
 		type: new DataTypes.STRING(16),
+		allowNull: false
+	},
+	unitMesureCat: {
+		type: DataTypes.INTEGER,
 		allowNull: false
 	}
 },{

@@ -15,6 +15,8 @@ const galleryRouter_1 = __importDefault(require("./routers/galleryRouter"));
 const webhookRouter_1 = __importDefault(require("./routers/webhookRouter"));
 const paymentRouter_1 = __importDefault(require("./routers/paymentRouter"));
 const userRouter_1 = __importDefault(require("./routers/userRouter"));
+const categoryRouter_1 = __importDefault(require("./routers/categoryRouter"));
+const productRouter_1 = __importDefault(require("./routers/productRouter"));
 const app = express_1.default();
 const publicDirectoryPath = path_1.default.join(__dirname, '../public');
 if (process.env.NODE_ENV === 'production') {
@@ -31,6 +33,8 @@ app.use(userRouter_1.default);
 app.use(galleryRouter_1.default);
 app.use(contactRouter_1.default);
 app.use(paymentRouter_1.default);
+app.use(categoryRouter_1.default);
+app.use(productRouter_1.default);
 app.use(express_1.default.static(publicDirectoryPath));
 exports.default = app;
 //# sourceMappingURL=app.js.map

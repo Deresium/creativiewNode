@@ -1,21 +1,34 @@
 import {RequestHandler} from "express";
 import jwt from "jsonwebtoken"
 import cookie from "cookie";
-import {getPayloadCookie} from "../cookies";
+import Roles from "../enums/roles";
 
-export const auth: RequestHandler = async(req, res, next) =>{
+const auth: RequestHandler = async(req, res, next) =>{
     try{
         const cookies = cookie.parse(req.headers.cookie || '');
         const sign = cookies.signature;
         const payload = cookies.payload;
         const token = `${payload}.${sign}`;
-
         if(token) {
-            jwt.verify(token, process.env.JWT_SECRET);
-            res.setHeader('Set-Cookie', getPayloadCookie(payload));
+            const decrypt = <any>jwt.verify(token, process.env.JWT_SECRET);
+            req.userRole = Roles[decrypt.role];
+            req.userId = decrypt.id;
             next();
-        }
+        }else
+            res.status(401).send('Please authenticate');
     }catch(e){
-        res.status(401).send({ error: 'Please authenticate'});
+        res.status(401).send('Please authenticate');
     }
 };
+
+const authOnlyOwner: RequestHandler = async(req, res, next) =>{
+    if(req.userRole === Roles.OWNER)
+        next();
+    else
+        res.status(401).send('Please authenticate');
+}
+
+export {
+    auth,
+    authOnlyOwner
+}

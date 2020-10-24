@@ -12,24 +12,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.auth = void 0;
+exports.authOnlyOwner = exports.auth = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const cookie_1 = __importDefault(require("cookie"));
-const cookies_1 = require("../cookies");
-exports.auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const roles_1 = __importDefault(require("../enums/roles"));
+const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cookies = cookie_1.default.parse(req.headers.cookie || '');
         const sign = cookies.signature;
         const payload = cookies.payload;
         const token = `${payload}.${sign}`;
         if (token) {
-            jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-            res.setHeader('Set-Cookie', cookies_1.getPayloadCookie(payload));
+            const decrypt = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+            req.userRole = roles_1.default[decrypt.role];
+            req.userId = decrypt.id;
             next();
         }
+        else
+            res.status(401).send('Please authenticate');
     }
     catch (e) {
-        res.status(401).send({ error: 'Please authenticate' });
+        res.status(401).send('Please authenticate');
     }
 });
+exports.auth = auth;
+const authOnlyOwner = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.userRole === roles_1.default.OWNER)
+        next();
+    else
+        res.status(401).send('Please authenticate');
+});
+exports.authOnlyOwner = authOnlyOwner;
 //# sourceMappingURL=authentication.js.map

@@ -1,12 +1,26 @@
-import {Model, DataTypes} from "sequelize";
+import {Model, DataTypes, Association, Transaction} from "sequelize";
 import {sequelize} from "../../../pgConnexion";
+import Category from "./Category";
+import Picture from "./Picture";
+import Gallery from "../Gallery";
+import Photo from "../Photo";
 
 export default class Price extends Model{
 	private id!: number;
 	private productId!: number;
+	private categoryId!: number;
 	private price!: number;
 	private startDate: Date;
 	private endDate: Date;
+	private category: Category;
+	public static associations:{
+		category: Association<Price, Category>;
+	}
+	
+	async endPrice(t: Transaction){
+		this.endDate = new Date();
+		await this.save({transaction: t});
+	}
 }
 
 Price.init({
@@ -16,6 +30,10 @@ Price.init({
 		primaryKey: true
 	},
 	productId: {
+		type: DataTypes.INTEGER,
+		allowNull: false
+	},
+	categoryId: {
 		type: DataTypes.INTEGER,
 		allowNull: false
 	},
@@ -29,9 +47,10 @@ Price.init({
 	},
 	endDate: {
 		type: DataTypes.DATE,
-		allowNull: false
+		allowNull: true
 	}
 },{
 	tableName: 'Prices',
 	sequelize
 });
+Price.belongsTo(Category,{foreignKey: "categoryId", targetKey: "id", as:"category"});
