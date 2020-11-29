@@ -20,11 +20,11 @@ userRouter.post('/login', async(req, res) => {
 	
 	try {
 		if (email && idToken && name) {
-			const client = new OAuth2Client(process.env.CLIENT_ID);
+			const client = new OAuth2Client(process.env.GOOGLE_OAUTH_ID);
 			
 			const ticket = await client.verifyIdToken({
 				idToken: req.body.idToken,
-				audience: process.env.CLIENT_ID
+				audience: process.env.GOOGLE_OAUTH_ID
 			});
 			
 			const payload = ticket.getPayload();
