@@ -76,6 +76,7 @@ userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, functi
         }
     }
     catch (error) {
+        console.log(error);
         res.send(500).send();
     }
 }));
