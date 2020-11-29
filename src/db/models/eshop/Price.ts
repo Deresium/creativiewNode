@@ -6,10 +6,10 @@ import Gallery from "../Gallery";
 import Photo from "../Photo";
 
 export default class Price extends Model{
-	private id!: number;
-	private productId!: number;
-	private categoryId!: number;
-	private price!: number;
+	private id: number;
+	private productId: number;
+	private categoryId: number;
+	private price: number;
 	private startDate: Date;
 	private endDate: Date;
 	private category: Category;
@@ -20,6 +20,14 @@ export default class Price extends Model{
 	async endPrice(t: Transaction){
 		this.endDate = new Date();
 		await this.save({transaction: t});
+	}
+	
+	get pricePrice(){
+		return this.price;
+	}
+	
+	get priceId(){
+		return this.id;
 	}
 }
 

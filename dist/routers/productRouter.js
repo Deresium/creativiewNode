@@ -19,6 +19,7 @@ const pgConnexion_1 = require("../pgConnexion");
 const Product_1 = __importDefault(require("../db/models/eshop/Product"));
 const Picture_1 = __importDefault(require("../db/models/eshop/Picture"));
 const Price_1 = __importDefault(require("../db/models/eshop/Price"));
+const ProductController_1 = require("../db/controllers/ProductController");
 const productRouter = express_1.default.Router();
 const upload = multer_1.default();
 productRouter.post('/product', authentication_1.auth, authentication_1.authOnlyOwner, upload.array('picture'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,10 +30,12 @@ productRouter.post('/product', authentication_1.auth, authentication_1.authOnlyO
             const code = req.body.code;
             const reference = req.body.reference;
             const prices = JSON.parse(req.body.prices);
+            const vat = req.body.vat;
             const files = req.files;
             const createdProduct = yield Product_1.default.create({
                 name,
                 description,
+                vat,
                 code,
                 reference
             }, { transaction: t });
@@ -67,6 +70,7 @@ productRouter.put('/product/:id', authentication_1.auth, authentication_1.authOn
             yield pgConnexion_1.sequelize.transaction((t) => __awaiter(void 0, void 0, void 0, function* () {
                 const name = req.body.name;
                 const description = req.body.description;
+                const vat = req.body.vat;
                 const code = req.body.code;
                 const reference = req.body.reference;
                 const prices = JSON.parse(req.body.prices);
@@ -86,6 +90,7 @@ productRouter.put('/product/:id', authentication_1.auth, authentication_1.authOn
                 yield product.updateProduct({
                     name,
                     description,
+                    vat,
                     code,
                     reference
                 }, t);
@@ -120,7 +125,7 @@ productRouter.put('/product/:id', authentication_1.auth, authentication_1.authOn
 }));
 productRouter.get('/product', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const products = yield Product_1.default.findAll({ where: { delete: false }, include: [{ association: Product_1.default.associations.prices, where: { endDate: null }, include: [{ association: Price_1.default.associations.category }] }] });
+        const products = yield Product_1.default.findAll({ where: { delete: false }, order: [[Product_1.default.associations.prices, 'price']], include: [{ association: Product_1.default.associations.pictures, attributes: ['id', 'name', 'format'] }, { association: Product_1.default.associations.prices, where: { endDate: null }, include: [{ association: Price_1.default.associations.category }] }] });
         res.send(products);
     }
     catch (error) {
@@ -130,7 +135,7 @@ productRouter.get('/product', (req, res) => __awaiter(void 0, void 0, void 0, fu
 }));
 productRouter.get('/product/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const product = yield Product_1.default.findByPk(req.params.id, { include: [{ association: Product_1.default.associations.pictures, attributes: ['id', 'name', 'format'] }, { association: Product_1.default.associations.prices, where: { endDate: null }, include: [{ association: Price_1.default.associations.category }] }] });
+        const product = yield ProductController_1.getProduct(parseInt(req.params.id));
         if (product)
             res.send(product);
         else

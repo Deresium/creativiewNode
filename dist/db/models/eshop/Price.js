@@ -22,6 +22,12 @@ class Price extends sequelize_1.Model {
             yield this.save({ transaction: t });
         });
     }
+    get pricePrice() {
+        return this.price;
+    }
+    get priceId() {
+        return this.id;
+    }
 }
 exports.default = Price;
 Price.init({

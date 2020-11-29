@@ -1,5 +1,5 @@
 import multer from "multer";
-import {auth} from "../middlewares/authentication";
+import {auth, authOnlyOwner} from "../middlewares/authentication";
 import express from "express";
 import Gallery from "../db/models/Gallery";
 import Photo from "../db/models/Photo";
@@ -9,7 +9,7 @@ import {Transaction} from "sequelize";
 const galleryRouter = express.Router();
 
 const upload = multer();
-galleryRouter.post('/gallery', auth, upload.array('photo'),async(req, res) => {
+galleryRouter.post('/gallery', auth, authOnlyOwner, upload.array('photo'),async(req, res) => {
     try{
         await sequelize.transaction(async(t: Transaction) => {
             console.log(req.body);
@@ -105,7 +105,7 @@ galleryRouter.get('/pictures/:galleryName/:id', async(req, res) => {
     }
 });
 
-galleryRouter.post('/gallery/addPicture/:galleryName', auth, upload.single('photo'), async(req, res) => {
+galleryRouter.post('/gallery/addPicture/:galleryName', auth, authOnlyOwner, upload.single('photo'), async(req, res) => {
     try{
         const galleryName = req.params.galleryName.replace('.', ' ');
         const gallery = await Gallery.findOne({where:{name:galleryName}});

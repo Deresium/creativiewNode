@@ -19,7 +19,18 @@ const getPayloadCookie = (value: string, deleteCookie = false) => {
     });
 }
 
+const getExternalRefBasketCookie = (externalRef: string) => {
+    return cookie.serialize('externalRefBasket', externalRef, {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        domain: 'creatiview.be',
+        sameSite: true,
+        maxAge: 10 * 365 * 24 * 60 * 60
+    });
+}
+
 export {
     getSignatureCookie,
     getPayloadCookie,
+    getExternalRefBasketCookie
 }

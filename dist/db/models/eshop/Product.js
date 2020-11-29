@@ -20,6 +20,9 @@ class Product extends sequelize_1.Model {
     get productId() {
         return this.id;
     }
+    get productName() {
+        return this.name;
+    }
     deleteProduct() {
         this.deleteDate = new Date();
         this.delete = true;
@@ -28,6 +31,7 @@ class Product extends sequelize_1.Model {
         return __awaiter(this, void 0, void 0, function* () {
             this.name = product.name;
             this.code = product.code;
+            this.vat = product.vat;
             this.reference = product.reference;
             this.description = product.description;
             yield this.save({ transaction: t });
@@ -50,6 +54,9 @@ class Product extends sequelize_1.Model {
     }
     get listPictures() {
         return this.pictures;
+    }
+    get productVat() {
+        return this.vat;
     }
 }
 exports.default = Product;
@@ -83,6 +90,11 @@ Product.init({
     deleteDate: {
         type: sequelize_1.DataTypes.DATE,
         allowNull: true,
+    },
+    vat: {
+        type: sequelize_1.DataTypes.NUMBER,
+        allowNull: false,
+        defaultValue: 21
     }
 }, {
     tableName: 'Products',

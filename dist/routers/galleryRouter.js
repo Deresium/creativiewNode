@@ -20,7 +20,7 @@ const Photo_1 = __importDefault(require("../db/models/Photo"));
 const pgConnexion_1 = require("../pgConnexion");
 const galleryRouter = express_1.default.Router();
 const upload = multer_1.default();
-galleryRouter.post('/gallery', authentication_1.auth, upload.array('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.post('/gallery', authentication_1.auth, authentication_1.authOnlyOwner, upload.array('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield pgConnexion_1.sequelize.transaction((t) => __awaiter(void 0, void 0, void 0, function* () {
             console.log(req.body);
@@ -116,7 +116,7 @@ galleryRouter.get('/pictures/:galleryName/:id', (req, res) => __awaiter(void 0, 
         res.status(500).send();
     }
 }));
-galleryRouter.post('/gallery/addPicture/:galleryName', authentication_1.auth, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+galleryRouter.post('/gallery/addPicture/:galleryName', authentication_1.auth, authentication_1.authOnlyOwner, upload.single('photo'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const galleryName = req.params.galleryName.replace('.', ' ');
         const gallery = yield Gallery_1.default.findOne({ where: { name: galleryName } });

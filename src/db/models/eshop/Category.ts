@@ -5,6 +5,10 @@ export default class Category extends Model{
 	private id: number;
 	private name: string;
 	private abbreviation: string;
+	
+	get categoryName(){
+		return this.name;
+	}
 }
 
 Category.init({

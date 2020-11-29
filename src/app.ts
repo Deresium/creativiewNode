@@ -14,6 +14,7 @@ import paymentRouter from "./routers/paymentRouter";
 import userRouter from "./routers/userRouter";
 import categoryRouter from "./routers/categoryRouter";
 import productRouter from "./routers/productRouter";
+import basketRouter from "./routers/basketRouter";
 
 const app = express();
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -37,6 +38,7 @@ app.use(contactRouter);
 app.use(paymentRouter);
 app.use(categoryRouter);
 app.use(productRouter);
+app.use(basketRouter);
 
 
 app.use(express.static(publicDirectoryPath));

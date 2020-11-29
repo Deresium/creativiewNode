@@ -4,15 +4,16 @@ import Picture from "./Picture";
 import Price from "./Price";
 
 export default class Product extends Model{
-	private id!: number;
+	private id: number;
 	private code: string;
 	private reference: string;
-	private name!: string;
+	private name: string;
 	private description: string;
 	private pictures: Picture[];
 	private prices: Price[];
 	private deleteDate: Date;
 	private delete: boolean;
+	private vat: number;
 	public static associations:{
 		pictures: Association<Product, Picture>;
 		prices: Association<Product, Price>;
@@ -20,6 +21,10 @@ export default class Product extends Model{
 	
 	get productId(){
 		return this.id;
+	}
+	
+	get productName(){
+		return this.name;
 	}
 	
 	deleteProduct(){
@@ -30,6 +35,7 @@ export default class Product extends Model{
 	async updateProduct(product: any, t: Transaction){
 		this.name = product.name;
 		this.code = product.code;
+		this.vat = product.vat;
 		this.reference = product.reference;
 		this.description = product.description;
 		await this.save({transaction: t})
@@ -51,6 +57,10 @@ export default class Product extends Model{
 	
 	get listPictures(){
 		return this.pictures;
+	}
+	
+	get productVat(){
+		return this.vat;
 	}
 }
 
@@ -84,6 +94,11 @@ Product.init({
 	deleteDate: {
 		type: DataTypes.DATE,
 		allowNull: true,
+	},
+	vat: {
+		type: DataTypes.NUMBER,
+		allowNull: false,
+		defaultValue: 21
 	}
 },{
 	tableName: 'Products',

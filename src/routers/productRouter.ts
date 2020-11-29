@@ -6,6 +6,7 @@ import {Transaction} from "sequelize";
 import Product from "../db/models/eshop/Product";
 import Picture from "../db/models/eshop/Picture";
 import Price from "../db/models/eshop/Price";
+import {getProduct} from "../db/controllers/ProductController";
 
 const productRouter = express.Router();
 
@@ -19,10 +20,12 @@ productRouter.post('/product', auth, authOnlyOwner, upload.array('picture'), asy
 			const code = req.body.code;
 			const reference = req.body.reference;
 			const prices = JSON.parse(req.body.prices);
+			const vat = req.body.vat;
 			const files: any = req.files;
 			const createdProduct = await Product.create({
 				name,
 				description,
+				vat,
 				code,
 				reference
 			}, {transaction: t});
@@ -59,6 +62,7 @@ productRouter.put('/product/:id', auth, authOnlyOwner, upload.array('picture'), 
 			await sequelize.transaction(async(t: Transaction) => {
 				const name = req.body.name;
 				const description = req.body.description;
+				const vat = req.body.vat;
 				const code = req.body.code;
 				const reference = req.body.reference;
 				const prices = JSON.parse(req.body.prices);
@@ -79,6 +83,7 @@ productRouter.put('/product/:id', auth, authOnlyOwner, upload.array('picture'), 
 				await product.updateProduct({
 					name,
 					description,
+					vat,
 					code,
 					reference
 				}, t);
@@ -116,7 +121,7 @@ productRouter.put('/product/:id', auth, authOnlyOwner, upload.array('picture'), 
 
 productRouter.get('/product', async(req, res) => {
 	try{
-		const products = await Product.findAll({where:{delete: false}, include: [{association: Product.associations.prices, where:{endDate: null}, include: [{association: Price.associations.category}]}]});
+		const products = await Product.findAll({where:{delete: false}, order: [[Product.associations.prices, 'price']],include: [{association: Product.associations.pictures, attributes: ['id', 'name', 'format']},{association: Product.associations.prices, where:{endDate: null}, include: [{association: Price.associations.category}]}]});
 		res.send(products);
 	}catch(error) {
 		console.log(error);
@@ -126,7 +131,7 @@ productRouter.get('/product', async(req, res) => {
 
 productRouter.get('/product/:id', async(req, res) => {
 	try{
-		const product = await Product.findByPk(req.params.id, {include: [{association: Product.associations.pictures, attributes: ['id', 'name', 'format']},{association: Product.associations.prices, where:{endDate: null}, include: [{association: Price.associations.category}]}]})
+		const product = await getProduct(parseInt(req.params.id));
 		if(product)
 			res.send(product);
 		else

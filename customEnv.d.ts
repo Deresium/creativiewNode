@@ -12,5 +12,8 @@ declare namespace NodeJS{
         GOOGLE_RECAPTCHA_SK: string;
         GOOGLE_RECAPTCHA_PK: string;
         GOOGLE_OAUTH_ID: string;
+        AWS_KEY_ID: string;
+        AWS_KEY_SECRET: string;
+        AWS_BUCKET_NAME: string;
     }
 }
