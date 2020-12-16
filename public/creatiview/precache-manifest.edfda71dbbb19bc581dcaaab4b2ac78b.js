@@ -1,11 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2560d5579232449eb88c",
-    "url": "/creatiview/css/app.870db454.css"
+    "revision": "ad154b999378c4d624b1d029d875eb8e",
+    "url": "/creatiview/commands.pdf"
+  },
+  {
+    "revision": "acf4e24de1941feb6a26",
+    "url": "/creatiview/css/app.c9cbb58c.css"
   },
   {
     "revision": "6f8a29a11b2d5a7d78bb990ab6494cbe",
     "url": "/creatiview/img/Bancontact_logo.6f8a29a1.svg"
+  },
+  {
+    "revision": "063bfef481606c44bffec822edace7a8",
+    "url": "/creatiview/img/Basket.063bfef4.png"
+  },
+  {
+    "revision": "0fb65890c87d18f634b6e65d48e973dc",
+    "url": "/creatiview/img/Boutique.0fb65890.png"
+  },
+  {
+    "revision": "417463e9ce2891690d3a80681a5d8183",
+    "url": "/creatiview/img/Home.417463e9.png"
   },
   {
     "revision": "3bc5935331af3ce87f57326ac7bfdd90",
@@ -16,12 +32,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/creatiview/img/arrow.a72eecc1.svg"
   },
   {
-    "revision": "f57e17588defbe3d318623a95a2122f1",
-    "url": "/creatiview/img/cached.f57e1758.svg"
-  },
-  {
     "revision": "8d3f873126e7e32ba5c3d53853c54cbb",
     "url": "/creatiview/img/clear.8d3f8731.svg"
+  },
+  {
+    "revision": "e24edf02fba14dd31025ed6e3809522d",
+    "url": "/creatiview/img/commands.e24edf02.png"
+  },
+  {
+    "revision": "faaa14972e9790d3912db5a63702f670",
+    "url": "/creatiview/img/contact.faaa1497.png"
   },
   {
     "revision": "90bb7452168cf25aa79d54701deed1d8",
@@ -36,12 +56,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/creatiview/img/hero.9965b1f4.jpg"
   },
   {
-    "revision": "874cea2180f989a75dee916912519cd1",
-    "url": "/creatiview/img/hero_need_website.874cea21.jpg"
-  },
-  {
     "revision": "7481a01d0654898c76d28871c9ec1367",
     "url": "/creatiview/img/linkedin.7481a01d.png"
+  },
+  {
+    "revision": "bc4b649cb23a6c844903942c94052bd0",
+    "url": "/creatiview/img/listesarticles.bc4b649c.png"
   },
   {
     "revision": "4c710e7f572fc0dbe8ab3d9a5aacf889",
@@ -52,32 +72,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/creatiview/img/menu.d32a6b64.svg"
   },
   {
-    "revision": "5faf50a26ded118fabf998ed1692b89f",
-    "url": "/creatiview/img/nature.5faf50a2.svg"
-  },
-  {
-    "revision": "92488e216b608541ab7a0f03cc39d0a8",
-    "url": "/creatiview/img/schedule.92488e21.svg"
-  },
-  {
-    "revision": "c1051cd8dc5bfe95250c030d74235073",
-    "url": "/creatiview/img/shopping_basket.c1051cd8.svg"
-  },
-  {
-    "revision": "32043222f718e4c68aacd43416638fde",
-    "url": "/creatiview/img/thumb_up.32043222.svg"
-  },
-  {
-    "revision": "7a9f8c43435caff55b7ac94a98a35670",
-    "url": "/creatiview/img/world.7a9f8c43.svg"
-  },
-  {
-    "revision": "320bb7ba9a1ac7761db3b6ecac24f1a6",
+    "revision": "f822e87a50a4b9be173f3921764010e5",
     "url": "/creatiview/index.html"
   },
   {
-    "revision": "2560d5579232449eb88c",
-    "url": "/creatiview/js/app.5b1bb504.js"
+    "revision": "acf4e24de1941feb6a26",
+    "url": "/creatiview/js/app.a0aa8f52.js"
   },
   {
     "revision": "7a9ab9d89be47545964d",
