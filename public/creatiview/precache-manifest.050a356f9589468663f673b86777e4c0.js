@@ -1,5 +1,9 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
+    "revision": "00adfa811d2132d662a1ed6d11a5fee3",
+    "url": "/creatiview/ads.txt"
+  },
+  {
     "revision": "ad154b999378c4d624b1d029d875eb8e",
     "url": "/creatiview/commands.pdf"
   },
@@ -72,7 +76,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/creatiview/img/menu.d32a6b64.svg"
   },
   {
-    "revision": "f822e87a50a4b9be173f3921764010e5",
+    "revision": "caa2bab356698e5cb2f0e2e02a00bea7",
     "url": "/creatiview/index.html"
   },
   {
