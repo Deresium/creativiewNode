@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/creatiview/commands.pdf"
   },
   {
-    "revision": "acf4e24de1941feb6a26",
-    "url": "/creatiview/css/app.c9cbb58c.css"
+    "revision": "e0e2e193881aee99bd3e",
+    "url": "/creatiview/css/app.762c948b.css"
   },
   {
     "revision": "6f8a29a11b2d5a7d78bb990ab6494cbe",
@@ -76,12 +76,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/creatiview/img/menu.d32a6b64.svg"
   },
   {
-    "revision": "caa2bab356698e5cb2f0e2e02a00bea7",
+    "revision": "bec4f09ba128e70030a789ec82bb884a",
     "url": "/creatiview/index.html"
   },
   {
-    "revision": "acf4e24de1941feb6a26",
-    "url": "/creatiview/js/app.a0aa8f52.js"
+    "revision": "e0e2e193881aee99bd3e",
+    "url": "/creatiview/js/app.114a9072.js"
   },
   {
     "revision": "7a9ab9d89be47545964d",
