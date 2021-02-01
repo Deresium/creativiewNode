@@ -19,7 +19,6 @@ const categoryRouter_1 = __importDefault(require("./routers/categoryRouter"));
 const productRouter_1 = __importDefault(require("./routers/productRouter"));
 const basketRouter_1 = __importDefault(require("./routers/basketRouter"));
 const app = express_1.default();
-const publicDirectoryPath = path_1.default.join(__dirname, '../public');
 if (process.env.NODE_ENV === 'production') {
     app.use(redirectHttps_1.default);
 }
@@ -37,6 +36,8 @@ app.use(paymentRouter_1.default);
 app.use(categoryRouter_1.default);
 app.use(productRouter_1.default);
 app.use(basketRouter_1.default);
-app.use(express_1.default.static(publicDirectoryPath));
+console.log(__dirname);
+const publicDirectory = path_1.default.join(__dirname, '../public/creatiview');
+app.use(express_1.default.static(publicDirectory));
 exports.default = app;
 //# sourceMappingURL=app.js.map

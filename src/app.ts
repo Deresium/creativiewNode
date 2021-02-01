@@ -17,7 +17,6 @@ import productRouter from "./routers/productRouter";
 import basketRouter from "./routers/basketRouter";
 
 const app = express();
-const publicDirectoryPath = path.join(__dirname, '../public');
 
 if(process.env.NODE_ENV === 'production') {
     app.use(redirectHttps);
@@ -40,7 +39,8 @@ app.use(categoryRouter);
 app.use(productRouter);
 app.use(basketRouter);
 
-
-app.use(express.static(publicDirectoryPath));
+console.log(__dirname);
+const publicDirectory = path.join(__dirname, '../public/creatiview');
+app.use(express.static(publicDirectory));
 
 export default app;
