@@ -2,10 +2,7 @@ import {RequestHandler} from "express";
 import path from "path";
 
 const returnIndex: RequestHandler = (req, res, next) => {
-    console.log('REQUEST', req.originalUrl);
-    console.log('HEADERS', req.headers.accept);
     if(req.headers.accept?.includes('text/html') && !req.originalUrl.endsWith('.txt')){
-        console.log('HERE');
         let publicDirectoryPath: null | string;
         //if(process.env.NODE_ENV === 'production'){
             if(req.get('host').includes('eshop.creatiview')){
