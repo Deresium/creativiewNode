@@ -1,25 +1,29 @@
 import {Sequelize} from "sequelize"
 
-let sequelize: Sequelize | null = null;
-const connect = () => {
-    console.log('try to connect...');
-    sequelize = new Sequelize(process.env.DATABASE_URL);
-    
-    /*if(process.env.NODE_ENV !== 'production')
-        sequelize.sync({alter: true});*/
-    
-    const testConnection = async() => {
-        try{
-            await sequelize.authenticate();
-            console.log('connection ok');
-        }catch(error){
-            console.log('connection error', error);
+let dialectOptions = {};
+if(process.env.NODE_ENV === 'production'){
+    dialectOptions = {
+        ssl: {
+            rejectUnauthorized: false
         }
     }
-    testConnection();
 }
 
-export{
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialectOptions
+});
+
+const connect = async() => {
+    console.log('try to connect...');
+    try {
+        await sequelize.authenticate();
+        console.log('sequelize connexion ok');
+    }catch(error){
+        console.log('sequelize connexion failed');
+    }
+}
+
+export {
     connect,
     sequelize
 }

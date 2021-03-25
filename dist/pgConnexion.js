@@ -11,23 +11,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sequelize = exports.connect = void 0;
 const sequelize_1 = require("sequelize");
-let sequelize = null;
+let dialectOptions = {};
+if (process.env.NODE_ENV === 'production') {
+    dialectOptions = {
+        ssl: {
+            rejectUnauthorized: false
+        }
+    };
+}
+const sequelize = new sequelize_1.Sequelize(process.env.DATABASE_URL, {
+    dialectOptions
+});
 exports.sequelize = sequelize;
-const connect = () => {
+const connect = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('try to connect...');
-    exports.sequelize = sequelize = new sequelize_1.Sequelize(process.env.DATABASE_URL);
-    /*if(process.env.NODE_ENV !== 'production')
-        sequelize.sync({alter: true});*/
-    const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            yield sequelize.authenticate();
-            console.log('connection ok');
-        }
-        catch (error) {
-            console.log('connection error', error);
-        }
-    });
-    testConnection();
-};
+    try {
+        yield sequelize.authenticate();
+        console.log('sequelize connexion ok');
+    }
+    catch (error) {
+        console.log('sequelize connexion failed');
+    }
+});
 exports.connect = connect;
 //# sourceMappingURL=pgConnexion.js.map
