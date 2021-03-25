@@ -4,7 +4,7 @@ declare namespace NodeJS{
         URL_CREATIVIEW: string;
         SENDGRID_CREATIVIEW: string;
         JWT_SECRET: string;
-        URL_PG: string;
+        DATABASE_URL: string;
         SK_STRIPE: string;
         STRIPE_SECRET: string;
         PG_USER: string;

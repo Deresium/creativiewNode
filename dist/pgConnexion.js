@@ -15,7 +15,7 @@ let sequelize = null;
 exports.sequelize = sequelize;
 const connect = () => {
     console.log('try to connect...');
-    exports.sequelize = sequelize = new sequelize_1.Sequelize(process.env.URL_PG);
+    exports.sequelize = sequelize = new sequelize_1.Sequelize(process.env.DATABASE_URL);
     /*if(process.env.NODE_ENV !== 'production')
         sequelize.sync({alter: true});*/
     const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {

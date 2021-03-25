@@ -6,10 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const returnIndex = (req, res, next) => {
     var _a;
-    console.log('REQUEST', req.originalUrl);
-    console.log('HEADERS', req.headers.accept);
     if (((_a = req.headers.accept) === null || _a === void 0 ? void 0 : _a.includes('text/html')) && !req.originalUrl.endsWith('.txt')) {
-        console.log('HERE');
         let publicDirectoryPath;
         //if(process.env.NODE_ENV === 'production'){
         if (req.get('host').includes('eshop.creatiview')) {

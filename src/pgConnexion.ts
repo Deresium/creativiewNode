@@ -3,7 +3,7 @@ import {Sequelize} from "sequelize"
 let sequelize: Sequelize | null = null;
 const connect = () => {
     console.log('try to connect...');
-    sequelize = new Sequelize(process.env.URL_PG);
+    sequelize = new Sequelize(process.env.DATABASE_URL);
     
     /*if(process.env.NODE_ENV !== 'production')
         sequelize.sync({alter: true});*/
